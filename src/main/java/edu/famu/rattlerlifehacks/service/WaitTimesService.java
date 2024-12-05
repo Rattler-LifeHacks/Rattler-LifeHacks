@@ -42,8 +42,8 @@ public class WaitTimesService {
     }
 
 
-    public static WaitTimes updateWaitTime(String locationId, Integer currentWaitTime, Timestamp lastUpdated) throws ExecutionException, InterruptedException {
-        DocumentReference waitTimeRef = firestore.collection(WAITTIMES_COLLECTION).document();
+    public WaitTimes updateWaitTime(String locationId, Integer currentWaitTime, Timestamp lastUpdated) throws ExecutionException, InterruptedException {
+        DocumentReference waitTimeRef = firestore.collection(WAITTIMES_COLLECTION).document(locationId);
         Map<String, Object> updates = new HashMap<>();
         updates.put("currentWaitTime", currentWaitTime);
         updates.put("lastUpdated", lastUpdated);

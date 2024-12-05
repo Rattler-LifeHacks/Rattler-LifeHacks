@@ -8,6 +8,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Organizations extends AOrg {
+public class Organizations{
+    @DocumentId
+    String  orgId;
+    String contactNumber;
+    String description;
+    String email;
+    String eventId;
+    String name;
 
 }
