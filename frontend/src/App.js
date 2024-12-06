@@ -1,40 +1,66 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import Login from "./components/login";
-import Profile from "./components/profile";
-import WaitTimes from "./components/wait";
-import StudyRooms from "./components/study";
-import Events from "./components/events";
 
-import { Link } from "react-router-dom";
+import Login from "./components/login"; // Ensure this is the correct path to your login.js
+import Profile from "./components/profile"; // Path to your profile.js
+import WaitTimes from "./components/wait"; // Path to your wait.js
+import StudyRooms from "./components/study"; // Path to your study.js
+import Events from "./components/events"; // Path to your events.js
 
 const App = () => {
-    const [user, setUser] = useState(null); // Logged-in user state
+    const [user, setUser] = useState(null); // State to track logged-in user
 
     return (
         <Router>
-            {user && <NavBar />} {/* Show the nav bar only if the user is logged in */}
+            {user && <NavBar setUser={setUser} />} {/* Show NavBar if logged in */}
             <Routes>
+                {/* Login Route */}
                 <Route
                     path="/"
                     element={user ? <Navigate to="/profile" /> : <Login setUser={setUser} />}
                 />
-                <Route path="/profile" element={<Profile user={user} setUser={setUser} />} />
-                <Route path="/wait-times" element={<WaitTimes />} />
-                <Route path="/study-rooms" element={<StudyRooms />} />
-                <Route path="/events" element={<Events />} />
+
+                {/* Protected Routes */}
+                <Route
+                    path="/profile"
+                    element={user ? <Profile user={user} setUser={setUser} /> : <Navigate to="/" />}
+                />
+                <Route
+                    path="/wait-times"
+                    element={user ? <WaitTimes /> : <Navigate to="/" />}
+                />
+                <Route
+                    path="/study-rooms"
+                    element={user ? <StudyRooms /> : <Navigate to="/" />}
+                />
+                <Route
+                    path="/events"
+                    element={user ? <Events /> : <Navigate to="/" />}
+                />
             </Routes>
         </Router>
     );
 };
 
-const NavBar = () => (
+const NavBar = ({ setUser }) => (
     <nav>
-        <Link to="/profile">Profile</Link>
-        <Link to="/wait-times">Wait Times</Link>
-        <Link to="/study-rooms">Study Rooms</Link>
-        <Link to="/events">Events</Link>
-        <Link to="/" onClick={() => sessionStorage.clear()}>Logout</Link>
+        <ul>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/wait-times">Wait Times</a></li>
+            <li><a href="/study-rooms">Study Rooms</a></li>
+            <li><a href="/events">Events</a></li>
+            <li>
+                <a
+                    href="/"
+                    onClick={() => {
+                        sessionStorage.clear();
+                        setUser(null);
+                    }}
+                >
+                    Logout
+                </a>
+            </li>
+        </ul>
     </nav>
 );
 
