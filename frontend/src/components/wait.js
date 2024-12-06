@@ -6,7 +6,7 @@ const WaitTimes = () => {
 
     useEffect(() => {
         axios
-            .get("/api/waittimes/")
+            .get("http:localhost:8080/api/waittimes/")
             .then((response) => setWaitTimes(response.data.data))
             .catch((error) => console.error(error));
     }, []);

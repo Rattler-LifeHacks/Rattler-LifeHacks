@@ -1,7 +1,16 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import axios from 'axios';
 
 export default function App() {
+    const [events, setEvents] = useState([]);
+
+    useEffect(() => {
+        axios
+            .get("http:localhost:8080/api/events/")
+            .then((response) => setEvents(response.data.data))
+            .catch((error) => console.error(error));
+    }, []);
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -14,10 +23,13 @@ export default function App() {
                     style={styles.banner}
                 />
                 <Text style={styles.sectionHeader}>Upcoming Events</Text>
-                <View>
-                    <Text>Event 1 - Date/Time</Text>
-                    <Text>Event 2 - Date/Time</Text>
-                    <Text>Event 3 - Date/Time</Text>
+                <View> { events.map((event, index) => {
+                    return (<Text>{event.title}</Text>)
+                        }
+
+                    )
+
+                }
                 </View>
             </View>
             <View style={styles.navBar}>

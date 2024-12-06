@@ -6,7 +6,7 @@ const Login = ({ setUser }) => {
 
     const loginHandler = async () => {
         try {
-            const response = await axios.get(`/api/user/${username}`);
+            const response = await axios.get(`http:localhost:8080/api/user/${username}`);
             if (response.data.success) {
                 setUser(response.data.data);
                 alert("Login Successful");

@@ -7,7 +7,7 @@ const Events = () => {
 
     useEffect(() => {
         axios
-            .get("/api/events/")
+            .get("http:localhost:8080/api/events/")
             .then((response) => setEvents(response.data.data))
             .catch((error) => console.error(error));
     }, []);

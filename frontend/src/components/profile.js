@@ -8,7 +8,7 @@ const Profile = ({ user, setUser }) => {
 
     const updateUsernameHandler = async () => {
         try {
-            const response = await axios.put(`/api/user/update/${user.userId}`, null, {
+            const response = await axios.put(`http:localhost:8080/api/user/update/${user.userId}`, null, {
                 params: { newUsername },
             });
             if (response.data.success) {

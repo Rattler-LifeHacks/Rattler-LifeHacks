@@ -6,7 +6,7 @@ const StudyRooms = () => {
 
     useEffect(() => {
         axios
-            .get("/api/studyrooms/")
+            .get("http:localhost:8080/api/studyrooms/")
             .then((response) => setStudyRooms(response.data.data))
             .catch((error) => console.error(error));
     }, []);
