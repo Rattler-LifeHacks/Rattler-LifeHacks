@@ -29,7 +29,7 @@ const Login = ({ setUser }) => {
                 onChange={(e) => setUsername(e.target.value)}
             />
             <button onClick={loginHandler}>Login</button>
-            <button onClick={() => (window.location.href = "/create-profile")}>
+            <button onClick={() => (window.location.href = "/create")}>
                 Create Profile
             </button>
         </div>
