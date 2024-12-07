@@ -1,5 +1,6 @@
 package edu.famu.rattlerlifehacks.controller;
 
+import edu.famu.rattlerlifehacks.model.Events;
 import edu.famu.rattlerlifehacks.model.User;
 import edu.famu.rattlerlifehacks.service.UserService;
 import edu.famu.rattlerlifehacks.util.ApiResponse;
@@ -73,6 +74,23 @@ public class UserController {
 
         } catch (Exception e) {
             return ResponseEntity.status(500).body(new ApiResponse<>(false, "Internal Server Error", null, e));
+        }
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<ApiResponse<User>> createUser(@RequestBody User users) {
+        try {
+            User createdUser = service.createUser(users);
+
+            if (createdUser != null) {
+                return ResponseEntity.ok(new ApiResponse<>(true, "User created successfully", createdUser, null));
+            } else {
+                return ResponseEntity.status(400).body(new ApiResponse<>(false, "Failed to create user", null, null));
+            }
+
+        } catch (ExecutionException | InterruptedException e) {
+            return ResponseEntity.status(500).body(new ApiResponse<>(false, "Internal Server Error", null, e));
+
         }
     }
 }

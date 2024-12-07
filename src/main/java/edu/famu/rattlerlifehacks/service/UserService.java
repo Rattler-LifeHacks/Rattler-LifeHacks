@@ -3,6 +3,7 @@ package edu.famu.rattlerlifehacks.service;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
+import edu.famu.rattlerlifehacks.model.Events;
 import edu.famu.rattlerlifehacks.model.User;
 import org.springframework.stereotype.Service;
 
@@ -79,6 +80,16 @@ public class UserService {
         WriteResult result = writeResult.get();
 
         return result != null;
+    }
+
+    public User createUser(User users) throws ExecutionException, InterruptedException {
+        DocumentReference userRef = firestore.collection(USER_COLLECTION).document();
+        users.setUserId(userRef.getId());  // Set the auto-generated ID as the eventId
+
+        // Asynchronously save the event to Firestore
+        ApiFuture<WriteResult> writeResult = userRef.set(users);
+        writeResult.get(); // Wait for the write operation to complete
+        return users;  // Return the saved event object
     }
 
 }
