@@ -1,33 +1,57 @@
 import React, { useState } from "react";
-import axios from "axios"; 
+import axios from "axios";
 
 const Login = ({ setUser }) => {
-    const [username, setUsername] = useState("");
+    const [userId, setUserId] = useState(""); // State for User ID
+    const [password, setPassword] = useState(""); // State for Password
 
     const loginHandler = async () => {
         try {
-            const response = await axios.get(`http:localhost:8080/api/user/${username}`);
+            // Send POST request with userId and password
+            const response = await axios.post("/api/user/login", {
+                userId, // Corrected variable name
+                password, // Corrected variable name
+            });
+
             if (response.data.success) {
-                setUser(response.data.data);
+                setUser(response.data.data); // Pass user data to parent
                 alert("Login Successful");
             } else {
-                alert("User not found");
+                alert(response.data.message || "Invalid User ID or Password");
             }
         } catch (error) {
-            console.error(error);
-            alert("Error logging in");
+            console.error("Error logging in:", error);
+            if (error.response && error.response.data.message) {
+                alert(`Error: ${error.response.data.message}`);
+            } else {
+                alert("Error logging in. Please try again.");
+            }
         }
     };
 
     return (
         <div>
             <h1>Login</h1>
-            <input
-                type="text"
-                placeholder="Enter Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-            />
+            <div>
+                <label htmlFor="userId">User ID:</label>
+                <input
+                    type="text"
+                    id="userId"
+                    placeholder="Enter User ID"
+                    value={userId}
+                    onChange={(e) => setUserId(e.target.value)}
+                />
+            </div>
+            <div>
+                <label htmlFor="password">Password:</label>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+            </div>
             <button onClick={loginHandler}>Login</button>
             <button onClick={() => (window.location.href = "/create")}>
                 Create Profile

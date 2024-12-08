@@ -93,5 +93,26 @@ public class UserController {
 
         }
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<User>> validateUser(@RequestBody User user) {
+        try {
+
+            User validatedUser = service.validateUser(user.getUserId(), user.getPassword());
+
+            if (validatedUser != null) {
+                return ResponseEntity.ok(new ApiResponse<>(true, "Login successful", validatedUser, null));
+            } else {
+                return ResponseEntity.status(401).body(new ApiResponse<>(false, "Invalid username or password", null, null));
+            }
+        } catch (Exception e) {
+            System.err.println("Error during user validation: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(new ApiResponse<>(false, "Internal Server Error", null, e));
+        }
+    }
+
+
+
 }
 

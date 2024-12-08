@@ -34,8 +34,8 @@ public class UserService {
     private User documentToUser(DocumentSnapshot document) throws ParseException {
         User user = null;
 
-        if(document.exists()){
-           user = document.toObject(User.class);
+        if (document.exists()) {
+            user = document.toObject(User.class);
         }
 
         return user;
@@ -56,7 +56,7 @@ public class UserService {
             User user = null;
             try {
                 user = documentToUser(document);
-            }catch (ParseException e){
+            } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
             users.add(user);
@@ -90,6 +90,52 @@ public class UserService {
         ApiFuture<WriteResult> writeResult = userRef.set(users);
         writeResult.get(); // Wait for the write operation to complete
         return users;  // Return the saved event object
+    }
+
+    public User loginUser(String email, String password) throws ExecutionException, InterruptedException {
+        DocumentReference usersRef = firestore.collection(USER_COLLECTION).document(email);
+        DocumentSnapshot userSnap = usersRef.get().get();
+
+        if (userSnap.exists()) {
+            User existingUser = userSnap.toObject(User.class);
+
+            // Check if the password matches
+            if (existingUser != null && existingUser.getPassword().equals(password)) {
+                return existingUser;
+            }
+        }
+        return null; // Return null if the user doesn't exist or password doesn't match
+    }
+
+    public User getUserByFieldId(String userId) throws ExecutionException, InterruptedException, ParseException {
+        System.out.println("Fetching user with field userId: " + userId);
+        CollectionReference usersCollection = firestore.collection(USER_COLLECTION);
+
+        // Query the collection where the userId field matches
+        Query query = usersCollection.whereEqualTo("userId", userId);
+        ApiFuture<QuerySnapshot> querySnapshot = query.get();
+
+        // Get the list of matching documents
+        List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
+
+        // If a matching document is found, map it to the User object
+        if (!documents.isEmpty()) {
+            System.out.println("User found: " + documents.get(0).getData());
+            return documentToUser(documents.get(0));
+        }
+
+        System.out.println("User not found for userId: " + userId);
+        return null;
+    }
+
+
+
+    public User validateUser(String userId, String password) throws ExecutionException, InterruptedException, ParseException {
+        User user = getUserByFieldId(userId);
+        if (user != null && user.getPassword().equals(password)) {
+            return user;
+        }
+        return null;
     }
 
 }
