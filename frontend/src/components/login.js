@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-
-
 const Login = ({ setUser }) => {
     const [userId, setUserId] = useState(""); // State for User ID
     const [password, setPassword] = useState(""); // State for Password
@@ -10,7 +8,7 @@ const Login = ({ setUser }) => {
     const loginHandler = async () => {
         try {
             // Send POST request with userId and password
-            const response = await axios.post("http://localhost:8080/api/user/login", {
+            const response = await axios.post("/api/user/login", {
                 userId, // Corrected variable name
                 password, // Corrected variable name
             });
@@ -34,7 +32,7 @@ const Login = ({ setUser }) => {
     return (
         <div>
             <h1>Rattler Life Hacks</h1>
-            <img src= "/assets/famulogo1.png" alt="FAMU Logo" />
+            <img src="/assets/famulogo1.png" alt="FAMU Logo" />
             <div>
                 <label htmlFor="userId" className="green-text">User ID:</label>
                 <input

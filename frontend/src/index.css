@@ -2,8 +2,8 @@ body {
   margin: 0;
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #ffffff;
@@ -16,7 +16,150 @@ body {
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  monospace;
+}
+/* Example styles for the login form */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%; /* Ensure the container takes full width */
+  max-width: 400px; /* Limit the max width of the form */
+  padding: 20px;
+  background-color: #fff; /* White background for the form */
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+}
+
+h1 {
+  font-size: 2rem;
+  color: #1b5633;
+  margin-bottom: 20px;
+}
+
+input {
+  padding: 10px;
+  font-size: 1rem;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%; /* Make inputs take full width of container */
+}
+input:focus {
+  border-color: #1b5633;
+  outline: none;
+}
+
+
+button {
+  background-color:  #1b5633;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 100%; /* Make buttons take full width of container */
+}
+/* Styling for form labels with green text */
+.green-text {
+  color:#1b5633 ;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+button:hover {
+  background-color: #45a049;
+}
+
+button:active {
+  background-color: #388e3c;
+}
+
+/*Create styles*/
+
+body {
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  font-family: Arial, sans-serif; /* Set a global font */
+  background-color: #ee7624; /* Set the background color to orange */
+  height: 100vh; /* Ensure the body takes up the full viewport height */
+  display: flex; /* Use flexbox to center the container */
+  justify-content: center;
+  align-items: center;
+}
+/* Center the entire form container */
+
+.create-container {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  background-color: #ee7624; /* White background for the form */
+  text-align: center;
+}
+/* Green labels for input fields */
+.green-label {
+  color: #1b5633;
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 1rem;
+  display: block;
+  text-align: center; /* Align the labels to the left inside the centered form */
+}
+
+/* Input field styling */
+input {
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+input:focus {
+  outline: none;
+  border-color: #1b5633;
+}
+
+/* Button styling */
+button {
+  padding: 10px 20px;
+  background-color: #1b5633;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+button:active {
+  background-color: #388e3c;
+}
+
+/* Error and success message styles */
+.error-message {
+  color: red;
+  font-size: 1rem;
+  margin: 10px 0;
+}
+
+.success-message {
+  color: #1b5633;
+  font-size: 1rem;
+  margin: 10px 0;
 }
 /* Example styles for the login form */
 .login-container {
