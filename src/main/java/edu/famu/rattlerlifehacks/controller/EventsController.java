@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -52,18 +53,16 @@ import java.util.concurrent.ExecutionException;
             try {
                 List<Events> events = service.getAllEvents();
 
-                if (events != null && !events.isEmpty()) {
-                    return ResponseEntity.ok(new ApiResponse<>(true, "Events List", events, null));
+                if (!events.isEmpty()) {
+                    return ResponseEntity.ok(new ApiResponse<>(true, "Events retrieved successfully", events, null));
                 } else {
-                    return ResponseEntity.status(204).body(new ApiResponse<>(true, "No events found", null, null));
+                    return ResponseEntity.status(204).body(new ApiResponse<>(true, "No events found", new ArrayList<>(), null));
                 }
-
-            } catch (ExecutionException e) {
+            } catch (Exception e) {
                 return ResponseEntity.status(500).body(new ApiResponse<>(false, "Internal Server Error", null, e));
-            } catch (InterruptedException e) {
-                return ResponseEntity.status(503).body(new ApiResponse<>(false, "Unable to reach Firebase", null, e));
             }
         }
+
 
         @PutMapping("/update/{eventId}")
         public ResponseEntity<ApiResponse<Events>> updateEventTime(

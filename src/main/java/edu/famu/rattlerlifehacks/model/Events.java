@@ -19,7 +19,6 @@ public class Events {
     String description;
     String eventId;
     String location;
-    String organizerId;
     String title;
     Timestamp date;
     public void setDate(String date) throws ParseException {

@@ -161,146 +161,107 @@ button:active {
   font-size: 1rem;
   margin: 10px 0;
 }
-/* Example styles for the login form */
-.login-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%; /* Ensure the container takes full width */
-  max-width: 400px; /* Limit the max width of the form */
-  padding: 20px;
-  background-color: #fff; /* White background for the form */
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+.dropdown-nav {
+  position: relative;
 }
 
-h1 {
-  font-size: 2rem;
-  color: #1b5633;
-  margin-bottom: 20px;
-}
-
-input {
-  padding: 10px;
-  font-size: 1rem;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 100%; /* Make inputs take full width of container */
-}
-input:focus {
-  border-color: #1b5633;
-  outline: none;
-}
-
-
-button {
-  background-color:  #1b5633;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: bold;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
-  width: 100%; /* Make buttons take full width of container */
-}
-/* Styling for form labels with green text */
-.green-text {
-  color:#1b5633 ;
-  font-weight: bold;
-  font-size: 1rem;
-  margin-bottom: 5px;
-}
-button:hover {
-  background-color: #45a049;
-}
-
-button:active {
-  background-color: #388e3c;
-}
-
-/*Create styles*/
-
-body {
-  margin: 0; /* Remove default margin */
-  padding: 0; /* Remove default padding */
-  font-family: Arial, sans-serif; /* Set a global font */
-  background-color: #ee7624; /* Set the background color to orange */
-  height: 100vh; /* Ensure the body takes up the full viewport height */
-  display: flex; /* Use flexbox to center the container */
-  justify-content: center;
-  align-items: center;
-}
-/* Center the entire form container */
-
-.create-container {
-  max-width: 400px;
-  margin: auto;
-  padding: 20px;
-  background-color: #ee7624; /* White background for the form */
-  text-align: center;
-}
-/* Green labels for input fields */
-.green-label {
-  color: #1b5633;
-  font-weight: bold;
-  margin-bottom: 5px;
-  font-size: 1rem;
-  display: block;
-  text-align: center; /* Align the labels to the left inside the centered form */
-}
-
-/* Input field styling */
-input {
-  padding: 10px;
-  margin-bottom: 15px;
-  font-size: 1rem;
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
-}
-
-input:focus {
-  outline: none;
-  border-color: #1b5633;
-}
-
-/* Button styling */
-button {
-  padding: 10px 20px;
+.dropdown-toggle {
   background-color: #1b5633;
   color: white;
-  font-size: 1rem;
-  font-weight: bold;
+  padding: 10px 20px;
   border: none;
-  border-radius: 5px;
   cursor: pointer;
+  font-size: 16px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  padding: 10px 0;
+  margin: 0;
+  width: 200px;
+  z-index: 10;
+}
+
+.dropdown-menu li {
+  padding: 10px 20px;
+}
+
+.dropdown-menu li a,
+.dropdown-menu li button {
+  text-decoration: none;
+  color: black;
+  display: block;
   width: 100%;
+  text-align: left;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
 }
 
-button:hover {
-  background-color: #45a049;
+.dropdown-menu li a:hover,
+.dropdown-menu li button:hover {
+  background-color: #f1f1f1;
+}
+/* event styles */
+.events-container {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  text-align: center;
+}
+.upcoming {
+  color: white;
+}
+.banner {
+  background-color: #1b5633;
+  color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.banner h1 {
+  color: white;
 }
 
-button:active {
-  background-color: #388e3c;
+.events-list ul {
+  list-style-type: none;
+  padding: 0;
 }
 
-/* Error and success message styles */
-.error-message {
-  color: red;
-  font-size: 1rem;
+.events-list li {
   margin: 10px 0;
+  font-size: 18px;
 }
-
-.success-message {
+.events-list p {
+  margin: 10px 0;
+  font-size: 18px;
   color: #1b5633;
-  font-size: 1rem;
-  margin: 10px 0;
+}
+.event-creation {
+  margin-top: 20px;
+  color: #1b5633;
+}
+
+.event-creation input {
+  margin: 5px;
+  padding: 8px;
+  font-size: 16px;
+}
+
+.event-creation button {
+  background-color: #1b5633;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.event-creation button:hover {
+  background-color: #1b5633;
 }

@@ -2,7 +2,7 @@ package edu.famu.rattlerlifehacks.service;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.*;
-import com.google.firebase.cloud.FirestoreClient;
+        import com.google.firebase.cloud.FirestoreClient;
 import edu.famu.rattlerlifehacks.model.Events;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +15,8 @@ import java.util.concurrent.ExecutionException;
 
 
 @Service
-    public class EventsService {
-        private static Firestore firestore;
+public class EventsService {
+    private static Firestore firestore;
     private static final String EVENTS_COLLECTION = "Events";
     public EventsService() {
         this.firestore = FirestoreClient.getFirestore();
@@ -36,27 +36,31 @@ import java.util.concurrent.ExecutionException;
 
 
 
-
-    // Method to retrieve all events
     public List<Events> getAllEvents() throws ExecutionException, InterruptedException {
         CollectionReference eventsCollection = firestore.collection(EVENTS_COLLECTION);
+
+        // Fetch all documents in the "Events" collection
         ApiFuture<QuerySnapshot> querySnapshot = eventsCollection.get();
         List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
 
-        List<Events> events = documents.isEmpty() ? null : new ArrayList<>();
+        // Initialize the events list
+        List<Events> events = new ArrayList<>();
 
-        documents.forEach(document -> {
-            Events event = null;
+        // Iterate over each document and map to Events object
+        for (QueryDocumentSnapshot document : documents) {
             try {
-                event = documentToEvent(document);
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
+                Events event = document.toObject(Events.class);
+                event.setEventId(document.getId()); // Assign the Firestore document ID
+                events.add(event); // Add the event to the list
+            } catch (Exception e) {
+                throw new RuntimeException("Error parsing event document: " + document.getId(), e);
             }
-            events.add(event);
-        });
+        }
 
         return events;
     }
+
+
 
     // Helper method to convert a DocumentSnapshot to an Event object
     private Events documentToEvent(DocumentSnapshot document) throws ParseException {
