@@ -161,3 +161,107 @@ button:active {
   font-size: 1rem;
   margin: 10px 0;
 }
+.dropdown-nav {
+  position: relative;
+}
+
+.dropdown-toggle {
+  background-color: #1b5633;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  padding: 10px 0;
+  margin: 0;
+  width: 200px;
+  z-index: 10;
+}
+
+.dropdown-menu li {
+  padding: 10px 20px;
+}
+
+.dropdown-menu li a,
+.dropdown-menu li button {
+  text-decoration: none;
+  color: black;
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.dropdown-menu li a:hover,
+.dropdown-menu li button:hover {
+  background-color: #f1f1f1;
+}
+/* event styles */
+.events-container {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  text-align: center;
+}
+.upcoming {
+  color: white;
+}
+.banner {
+  background-color: #1b5633;
+  color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.banner h1 {
+  color: white;
+}
+
+.events-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.events-list li {
+  margin: 10px 0;
+  font-size: 18px;
+}
+.events-list p {
+  margin: 10px 0;
+  font-size: 18px;
+  color: #1b5633;
+}
+.event-creation {
+  margin-top: 20px;
+  color: #1b5633;
+}
+
+.event-creation input {
+  margin: 5px;
+  padding: 8px;
+  font-size: 16px;
+}
+
+.event-creation button {
+  background-color: #1b5633;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.event-creation button:hover {
+  background-color: #1b5633;
+}

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Profile = ({ user, setUser }) => {
     const [newUsername, setNewUsername] = useState("");
+    const [dropdownOpen, setDropdownOpen] = useState(false); // State to toggle the dropdown
 
     const updateUsernameHandler = async () => {
         if (!newUsername.trim()) {
@@ -53,7 +55,33 @@ const Profile = ({ user, setUser }) => {
 
     return (
         <div>
-            <h1>Profile</h1>
+            <nav className="dropdown-nav">
+                <button
+                    className="dropdown-toggle"
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                >
+                    Menu
+                </button>
+                {dropdownOpen && (
+                    <ul className="dropdown-menu">
+                        <li><Link to="/profile">Profile</Link></li>
+                        <li><Link to="/wait-times">Wait Times</Link></li>
+                        <li><Link to="/study-rooms">Study Rooms</Link></li>
+                        <li><Link to="/events">Events</Link></li>
+                        <li>
+                            <button
+                                onClick={() => {
+                                    sessionStorage.clear();
+                                    setUser(null);
+                                }}
+                            >
+                                Logout
+                            </button>
+                        </li>
+                    </ul>
+                )}
+            </nav>
+            <h1>Update Username</h1>
             {/* Display the current userId */}
             <p>
                 <strong>Username:</strong> {user?.userId || "No username available"}
