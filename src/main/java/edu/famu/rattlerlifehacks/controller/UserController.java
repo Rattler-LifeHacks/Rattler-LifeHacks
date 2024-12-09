@@ -61,38 +61,45 @@ public class UserController {
         }
     }
 
-    @DeleteMapping ("/delete/{userId}")
+    @DeleteMapping("/delete/{userId}")
     public ResponseEntity<ApiResponse<User>> deleteUserbyId(@PathVariable String userId) {
         try {
-            boolean deleted = UserService.deleteUserbyId(userId);
+            // Call the updated service method (non-static version)
+            boolean deleted = service.deleteUserbyId(userId);
 
             if (deleted) {
                 return ResponseEntity.ok(new ApiResponse<>(true, "User deleted successfully", null, null));
             } else {
                 return ResponseEntity.status(404).body(new ApiResponse<>(false, "User not found", null, null));
             }
-
         } catch (Exception e) {
             return ResponseEntity.status(500).body(new ApiResponse<>(false, "Internal Server Error", null, e));
         }
     }
 
+
     @PostMapping("/create")
     public ResponseEntity<ApiResponse<User>> createUser(@RequestBody User users) {
         try {
+            // Call the service to create the user
             User createdUser = service.createUser(users);
 
             if (createdUser != null) {
+                // Respond with success if the user was created
                 return ResponseEntity.ok(new ApiResponse<>(true, "User created successfully", createdUser, null));
             } else {
+                // Respond with failure if the user creation failed
                 return ResponseEntity.status(400).body(new ApiResponse<>(false, "Failed to create user", null, null));
             }
-
+        } catch (IllegalArgumentException e) {
+            // Handle specific validation errors (e.g., missing email, duplicate userId)
+            return ResponseEntity.status(400).body(new ApiResponse<>(false, e.getMessage(), null, null));
         } catch (ExecutionException | InterruptedException e) {
+            // Handle errors related to Firestore operations
             return ResponseEntity.status(500).body(new ApiResponse<>(false, "Internal Server Error", null, e));
-
         }
     }
+
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<User>> validateUser(@RequestBody User user) {
@@ -113,6 +120,29 @@ public class UserController {
     }
 
 
+    @PutMapping("/update/{currentUserId}")
+    public ResponseEntity<ApiResponse<String>> updateUserId(
+            @PathVariable String currentUserId,
+            @RequestParam String newUserId) {
+        try {
+            // Call the service method to update the userId
+            boolean updated = service.updateUserId(currentUserId, newUserId);
+
+            if (updated) {
+                // Return success response if the update is successful
+                return ResponseEntity.ok(new ApiResponse<>(true, "UserId updated successfully", null, null));
+            } else {
+                // Return failure response if the update was not successful
+                return ResponseEntity.status(400).body(new ApiResponse<>(false, "Failed to update userId", null, null));
+            }
+        } catch (IllegalArgumentException e) {
+            // Handle validation or input-related errors
+            return ResponseEntity.status(400).body(new ApiResponse<>(false, e.getMessage(), null, null));
+        } catch (Exception e) {
+            // Handle unexpected server errors
+            return ResponseEntity.status(500).body(new ApiResponse<>(false, "Internal Server Error", null, e));
+        }
+    }
 
 }
 

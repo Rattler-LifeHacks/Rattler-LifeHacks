@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-router-dom";
 
-import Login from "./components/login"; // Ensure this is the correct path to your login.js
-import Profile from "./components/profile"; // Path to your profile.js
-import WaitTimes from "./components/wait"; // Path to your wait.js
-import StudyRooms from "./components/study"; // Path to your study.js
-import Events from "./components/events"; // Path to your events.js
+import Login from "./components/login"; // Correct path for login.js
+import Create from "./components/create"; // Correct path for create.js
+import Profile from "./components/profile"; // Correct path for profile.js
+import WaitTimes from "./components/wait"; // Correct path for wait.js
+import StudyRooms from "./components/study"; // Correct path for study.js
+import Events from "./components/events"; // Correct path for events.js
 
 const App = () => {
     const [user, setUser] = useState(null); // State to track logged-in user
@@ -14,11 +15,12 @@ const App = () => {
         <Router>
             {user && <NavBar setUser={setUser} />} {/* Show NavBar if logged in */}
             <Routes>
-                {/* Login Route */}
+                {/* Public Routes */}
                 <Route
                     path="/"
                     element={user ? <Navigate to="/profile" /> : <Login setUser={setUser} />}
                 />
+                <Route path="/create" element={<Create />} />
 
                 {/* Protected Routes */}
                 <Route
@@ -45,16 +47,25 @@ const App = () => {
 const NavBar = ({ setUser }) => (
     <nav>
         <ul>
-            <li><a href="/profile">Profile</a></li>
-            <li><a href="/wait-times">Wait Times</a></li>
-            <li><a href="/study-rooms">Study Rooms</a></li>
-            <li><a href="/events">Events</a></li>
+            <li>
+                <Link to="/profile">Profile</Link>
+            </li>
+            <li>
+                <Link to="/wait-times">Wait Times</Link>
+            </li>
+            <li>
+                <Link to="/study-rooms">Study Rooms</Link>
+            </li>
+            <li>
+                <Link to="/events">Events</Link>
+            </li>
             <li>
                 <a
                     href="/"
-                    onClick={() => {
-                        sessionStorage.clear();
-                        setUser(null);
+                    onClick={(e) => {
+                        e.preventDefault(); // Prevent full page reload
+                        sessionStorage.clear(); // Clear user session
+                        setUser(null); // Reset user state
                     }}
                 >
                     Logout

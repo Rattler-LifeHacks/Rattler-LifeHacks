@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -65,16 +66,23 @@ public class UserService {
     }
 
     public static boolean deleteUserbyId(String userId) throws ExecutionException, InterruptedException {
-        DocumentReference userRef = firestore.collection(USER_COLLECTION).document(userId);
+        // Reference to the collection
+        CollectionReference usersCollection = firestore.collection(USER_COLLECTION);
 
-        // Check if the user exists before attempting to delete
-        DocumentSnapshot userSnap = userRef.get().get();
-        if (!userSnap.exists()) {
+        // Query for the document where the userId field matches the input userId
+        Query query = usersCollection.whereEqualTo("userId", userId);
+        ApiFuture<QuerySnapshot> querySnapshotFuture = query.get();
+        QuerySnapshot querySnapshot = querySnapshotFuture.get();
+
+        if (querySnapshot.isEmpty()) {
             return false; // User not found, nothing to delete
         }
 
-        // Perform the delete operation
-        ApiFuture<WriteResult> writeResult = userRef.delete();
+        // Get the first matching document (assuming userId is unique)
+        DocumentSnapshot userSnap = querySnapshot.getDocuments().get(0);
+
+        // Delete the document
+        ApiFuture<WriteResult> writeResult = userSnap.getReference().delete();
 
         // Check if the delete operation was successful
         WriteResult result = writeResult.get();
@@ -82,15 +90,35 @@ public class UserService {
         return result != null;
     }
 
-    public User createUser(User users) throws ExecutionException, InterruptedException {
-        DocumentReference userRef = firestore.collection(USER_COLLECTION).document();
-        users.setUserId(userRef.getId());  // Set the auto-generated ID as the eventId
 
-        // Asynchronously save the event to Firestore
+
+    public User createUser(User users) throws ExecutionException, InterruptedException {
+        if (users.getUserId() == null || users.getUserId().trim().isEmpty()) {
+            throw new IllegalArgumentException("User ID cannot be null or empty");
+        }
+
+        // Validate Email
+        if (users.getEmail() == null || users.getEmail().trim().isEmpty()) {
+            throw new IllegalArgumentException("Email cannot be null or empty");
+        }
+
+
+        // Reference to the user's document in the collection
+        DocumentReference userRef = firestore.collection(USER_COLLECTION).document(users.getUserId());
+
+        // Check if the user already exists
+        DocumentSnapshot existingUserSnap = userRef.get().get();
+        if (existingUserSnap.exists()) {
+            throw new IllegalArgumentException("User ID already exists. Please choose a different User ID.");
+        }
+
+        // Save the user data to Firestore
         ApiFuture<WriteResult> writeResult = userRef.set(users);
         writeResult.get(); // Wait for the write operation to complete
-        return users;  // Return the saved event object
+
+        return users; // Return the saved user object
     }
+
 
     public User loginUser(String email, String password) throws ExecutionException, InterruptedException {
         DocumentReference usersRef = firestore.collection(USER_COLLECTION).document(email);
@@ -137,5 +165,41 @@ public class UserService {
         }
         return null;
     }
+
+
+    public boolean updateUserId(String currentUserId, String newUserId) throws ExecutionException, InterruptedException {
+        // Locate the current user document based on the actual userId field
+        Query userQuery = firestore.collection(USER_COLLECTION)
+                .whereEqualTo("userId", currentUserId)
+                .limit(1);
+
+        // Get the user's document snapshot
+        ApiFuture<QuerySnapshot> querySnapshot = userQuery.get();
+        List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
+
+        if (documents.isEmpty()) {
+            throw new IllegalArgumentException("User not found with userId: " + currentUserId);
+        }
+
+        DocumentSnapshot currentUserSnap = documents.get(0);
+        DocumentReference currentUserRef = currentUserSnap.getReference();
+
+        // Check if the new userId already exists
+        Query newUserQuery = firestore.collection(USER_COLLECTION)
+                .whereEqualTo("userId", newUserId)
+                .limit(1);
+
+        ApiFuture<QuerySnapshot> newUserQuerySnapshot = newUserQuery.get();
+        if (!newUserQuerySnapshot.get().isEmpty()) {
+            throw new IllegalArgumentException("UserId already exists. Please choose a different UserId.");
+        }
+
+        // Update the userId field in the located document
+        ApiFuture<WriteResult> updateFuture = currentUserRef.update("userId", newUserId);
+        updateFuture.get(); // Wait for the update to complete
+
+        return true; // Successfully updated the userId
+    }
+
 
 }
