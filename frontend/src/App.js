@@ -13,7 +13,6 @@ const App = () => {
 
     return (
         <Router>
-            {user && <NavBar setUser={setUser} />} {/* Show NavBar if logged in */}
             <Routes>
                 {/* Public Routes */}
                 <Route
@@ -44,35 +43,6 @@ const App = () => {
     );
 };
 
-const NavBar = ({ setUser }) => (
-    <nav>
-        <ul>
-            <li>
-                <Link to="/profile">Profile</Link>
-            </li>
-            <li>
-                <Link to="/wait-times">Wait Times</Link>
-            </li>
-            <li>
-                <Link to="/study-rooms">Study Rooms</Link>
-            </li>
-            <li>
-                <Link to="/events">Events</Link>
-            </li>
-            <li>
-                <a
-                    href="/"
-                    onClick={(e) => {
-                        e.preventDefault(); // Prevent full page reload
-                        sessionStorage.clear(); // Clear user session
-                        setUser(null); // Reset user state
-                    }}
-                >
-                    Logout
-                </a>
-            </li>
-        </ul>
-    </nav>
-);
-
 export default App;
+
+

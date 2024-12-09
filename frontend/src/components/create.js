@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // For redirecting after account creation
+import {Link, useNavigate} from "react-router-dom";
+import Navbar from "./navbar"; // For redirecting after account creation
 
 const Create = () => {
     const [username, setUsername] = useState(""); // State for username
@@ -48,32 +49,34 @@ const Create = () => {
     };
 
     return (
-        <div className="create-container">
-            <h1>Create New Account</h1>
+        <div>
+            <Navbar />
+    <div className="create-container">
+        <h1>Create New Account</h1>
 
-            {/* Success or error messages */}
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
-            {successMessage && <p className="success-message">{successMessage}</p>}
+        {/* Success or error messages */}
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+        {successMessage && <p className="success-message">{successMessage}</p>}
 
-            {/* Form to create a new user */}
-            <form onSubmit={createUserHandler}>
-                <div>
-                    <label htmlFor="username" className="green-label">USERNAME</label>
-                    <input
-                        type="text"
-                        id="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        placeholder="Enter your username"
-                    />
-                </div>
-                <div>
-                    <label htmlFor="email" className="green-label">EMAIL</label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+        {/* Form to create a new user */}
+        <form onSubmit={createUserHandler}>
+            <div>
+                <label htmlFor="username" className="green-label">USERNAME</label>
+                <input
+                    type="text"
+                    id="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Enter your username"
+                />
+            </div>
+            <div>
+                <label htmlFor="email" className="green-label">EMAIL</label>
+                <input
+                    type="email"
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                         placeholder="Enter your email"
                     />
                 </div>
@@ -91,6 +94,8 @@ const Create = () => {
                 <button type="submit">Create Account</button>
             </form>
         </div>
+        </div>
+
     );
 };
 
