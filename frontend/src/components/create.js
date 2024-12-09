@@ -49,7 +49,7 @@ const Create = () => {
 
     return (
         <div className="create-container">
-            <h1>Create Account</h1>
+            <h1>Create New Account</h1>
 
             {/* Success or error messages */}
             {errorMessage && <p className="error-message">{errorMessage}</p>}
@@ -58,7 +58,7 @@ const Create = () => {
             {/* Form to create a new user */}
             <form onSubmit={createUserHandler}>
                 <div>
-                    <label htmlFor="username">Username:</label>
+                    <label htmlFor="username" className="green-label">USERNAME</label>
                     <input
                         type="text"
                         id="username"
@@ -68,7 +68,7 @@ const Create = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="email">Email:</label>
+                    <label htmlFor="email" className="green-label">EMAIL</label>
                     <input
                         type="email"
                         id="email"
@@ -78,7 +78,7 @@ const Create = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="password">Password:</label>
+                    <label htmlFor="password" className="green-label">PASSWORD</label>
                     <input
                         type="password"
                         id="password"

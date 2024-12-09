@@ -31,9 +31,10 @@ const Login = ({ setUser }) => {
 
     return (
         <div>
-            <h1>Login</h1>
+            <h1>Rattler Life Hacks</h1>
+            <img src="/assets/famulogo1.png" alt="FAMU Logo" />
             <div>
-                <label htmlFor="userId">User ID:</label>
+                <label htmlFor="userId" className="green-text">User ID:</label>
                 <input
                     type="text"
                     id="userId"
@@ -43,7 +44,7 @@ const Login = ({ setUser }) => {
                 />
             </div>
             <div>
-                <label htmlFor="password">Password:</label>
+                <label htmlFor="password" className="green-text">Password:</label>
                 <input
                     type="password"
                     id="password"
