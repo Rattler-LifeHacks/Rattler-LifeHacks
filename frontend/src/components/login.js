@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+
 const Login = ({ setUser }) => {
     const [userId, setUserId] = useState(""); // State for User ID
     const [password, setPassword] = useState(""); // State for Password
@@ -31,6 +32,7 @@ const Login = ({ setUser }) => {
 
     return (
         <div>
+    
             <h1>Rattler Life Hacks</h1>
             <img src="/assets/famulogo1.png" alt="FAMU Logo" />
             <div>

@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import axios from 'axios';
+import {Link, useNavigate} from "react-router-dom";
+import Navbar from "./navbar";
 
 export default function App() {
     const [events, setEvents] = useState([]);
@@ -13,6 +15,7 @@ export default function App() {
     }, []);
     return (
         <div>
+              <Navbar />
             <h1>Rattler Life Hacks</h1>
             <View style={styles.container}>
                 <View style={styles.header}>

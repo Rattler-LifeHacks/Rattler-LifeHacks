@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import {Link, useNavigate} from "react-router-dom";
+import Navbar from "./navbar";
 
 const Events = () => {
     const [events, setEvents] = useState([]);
@@ -42,6 +44,8 @@ const Events = () => {
     };
 
     return (
+        <div>
+            <Navbar />
         <div className="events-container">
             {/* Banner */}
             <div className="banner">
@@ -80,6 +84,7 @@ const Events = () => {
                 />
                 <button onClick={createEventHandler}>Create Event</button>
             </div>
+        </div>
         </div>
     );
 };

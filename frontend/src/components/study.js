@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import {Link, useNavigate} from "react-router-dom";
+import Navbar from "./navbar";
 
 const StudyRooms = () => {
     const [studyRooms, setStudyRooms] = useState([]);
@@ -13,6 +15,7 @@ const StudyRooms = () => {
 
     return (
         <div>
+              <Navbar />
             <h1>Study Rooms</h1>
             <ul>
                 {studyRooms.map((room) => (

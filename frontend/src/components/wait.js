@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import {Link, useNavigate} from "react-router-dom";
+import Navbar from "./navbar";
 
 const WaitTimes = () => {
     const [waitTimes, setWaitTimes] = useState([]);
@@ -13,6 +15,7 @@ const WaitTimes = () => {
 
     return (
         <div>
+              <Navbar />
             <h1>Wait Times</h1>
             <ul>
                 {waitTimes.map((wt) => (
