@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 import Login from "./components/login"; // Correct path for login.js
 import Create from "./components/create"; // Correct path for create.js
@@ -7,12 +7,14 @@ import Profile from "./components/profile"; // Correct path for profile.js
 import WaitTimes from "./components/wait"; // Correct path for wait.js
 import StudyRooms from "./components/study"; // Correct path for study.js
 import Events from "./components/events"; // Correct path for events.js
+import Navbar from "./components/navbar"; // Correct path for navbar.js
 
 const App = () => {
     const [user, setUser] = useState(null); // State to track logged-in user
 
     return (
         <Router>
+            {user && <Navbar />} {/* Show Navbar only when logged in */}
             <Routes>
                 {/* Public Routes */}
                 <Route
@@ -44,5 +46,3 @@ const App = () => {
 };
 
 export default App;
-
-
