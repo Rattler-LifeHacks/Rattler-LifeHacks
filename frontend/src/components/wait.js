@@ -15,15 +15,22 @@ const WaitTimes = () => {
 
     return (
         <div>
-              <Navbar />
+            <Navbar />
             <h1>Wait Times</h1>
-            <ul>
-                {waitTimes.map((wt) => (
-                    <li key={wt.locationId}>
-                        {wt.locationName}: {wt.currentWaitTime} mins
-                    </li>
-                ))}
-            </ul>
+            <div className="wait-times-container">
+                {/* Display each location's wait time */}
+                <ul>
+                    {waitTimes.length > 0 ? (
+                        waitTimes.map((wt) => (
+                            <li key={wt.locationId} className="wait-time-item">
+                                <strong>{wt.locationName}:</strong> {wt.currentWaitTime} mins
+                            </li>
+                        ))
+                    ) : (
+                        <p>Loading wait times...</p>
+                    )}
+                </ul>
+            </div>
         </div>
     );
 };
