@@ -7,7 +7,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #ffffff;
-  height: 100vh; /* Ensure body takes full height of the viewport */
+  height: 100%; /* Ensure body takes full height of the viewport */
+  width: 100%;
   display: flex; /* Use flexbox to center the content */
   justify-content: center; /* Align content horizontally in the center */
   align-items: center; /* Align content vertically in the center */
@@ -25,13 +26,16 @@ code {
   align-items: center;
   justify-content: center;
   width: 100%; /* Ensure the container takes full width */
-  max-width: 400px; /* Limit the max width of the form */
+  max-width: 600px; /* Limit the max width of the form */
   padding: 20px;
   background-color: #fff; /* White background for the form */
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+  text-align: center;
 }
-
+ h1,h2{
+  margin-top: 0;
+ }
 h1 {
   font-size: 2rem;
   color: #1b5633;
@@ -88,7 +92,8 @@ body {
   padding: 0; /* Remove default padding */
   font-family: Arial, sans-serif; /* Set a global font */
   background-color: #ee7624; /* Set the background color to orange */
-  height: 100vh; /* Ensure the body takes up the full viewport height */
+  height: 100%; /* Ensure the body takes up the full viewport height */
+  width: 100%;
   display: flex; /* Use flexbox to center the container */
   justify-content: center;
   align-items: center;
@@ -96,7 +101,7 @@ body {
 /* Center the entire form container */
 
 .create-container {
-  max-width: 400px;
+  max-width: 600px;
   margin: auto;
   padding: 20px;
   background-color: #ee7624; /* White background for the form */
@@ -184,7 +189,7 @@ button:active {
   list-style: none;
   padding: 10px 0;
   margin: 0;
-  width: 200px;
+  width: 100%;
   z-index: 10;
 }
 
@@ -264,4 +269,77 @@ button:active {
 
 .event-creation button:hover {
   background-color: #1b5633;
+}
+/* wait times */
+/* Wait Times Container */
+.wait-times-container {
+  margin: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* List styling for wait times */
+.wait-times-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+.wait-time-item {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wait-time-item strong {
+  font-weight: bold;
+}
+
+.wait-time-item:hover {
+  background-color: #e9f5e9;
+}
+h2 {
+  text-align: center;
+  color: #1b5633;
+  font-size: 2rem;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  font-size: 2rem;
+}
+
+/* Profile container styling */
+.profile-container {
+  display: flex; /* Flexbox for alignment */
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Horizontally center the items */
+  justify-content: center; /* Vertically center the items */
+  height: 100%; /* Full height of the container */
+  text-align: center; /* Center-align text */
+  padding: 20px;
+  box-sizing: border-box; /* Ensure padding doesn't affect dimensions */
+}
+
+/* Styling for the profile picture */
+.profile-container img {
+  border: 3px solid #1b5633; /* Green border */
+  border-radius: 50%; /* Make the image a perfect circle */
+  width: 150px; /* Set the width */
+  height: 150px; /* Set the height to match the width */
+  object-fit: cover; /* Ensure the image is properly contained */
+  margin-bottom: 20px; /* Add spacing below the image */
+}
+
+
+input[type="file"] {
+  display: block;
+  margin: 10px auto;
 }
