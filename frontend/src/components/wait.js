@@ -1,36 +1,45 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {Link, useNavigate} from "react-router-dom";
-import Navbar from "./navbar";
+import Navbar from "./navbar"; // Ensure this path is correct
 
 const WaitTimes = () => {
     const [waitTimes, setWaitTimes] = useState([]);
+    const [error, setError] = useState("");
 
     useEffect(() => {
         axios
-            .get("http:localhost:8080/api/waittimes/")
-            .then((response) => setWaitTimes(response.data.data))
-            .catch((error) => console.error(error));
+            .get("http://localhost:8080/api/waittimes/") // Correct endpoint
+            .then((response) => {
+                if (response.data.success) {
+                    setWaitTimes(response.data.data || []); // Update state with fetched data
+                } else {
+                    setError(response.data.message || "Failed to fetch wait times");
+                }
+            })
+            .catch((err) => {
+                console.error("Error fetching wait times:", err);
+                setError("Error fetching wait times. Please try again later.");
+            });
     }, []);
 
     return (
         <div>
             <Navbar />
             <h1>Wait Times</h1>
-            <div className="wait-times-container">
-                {/* Display each location's wait time */}
+            {error && <p className="error-message">{error}</p>}
+            {waitTimes.length > 0 ? (
                 <ul>
-                    {waitTimes.length > 0 ? (
-                        waitTimes.map((wt) => (
-                            <li key={wt.locationId} className="wait-time-item">
-                                <strong>{wt.locationName}:</strong> {wt.currentWaitTime} mins
-                            </li>
-                        ))
-                    ) : (
-                        <p>Loading wait times...</p>
-                    )}
+                    {waitTimes.map((wt) => (
+                        <li key={wt.locationId}>
+                            <strong>Location:</strong> {wt.locationId} <br />
+                            <strong>Type:</strong> {wt.locationType} <br />
+                            <strong>Wait Time:</strong> {wt.currentWaitTime} mins
+                        </li>
+                    ))}
                 </ul>
-            </div>
+            ) : (
+                <p>No wait times available.</p>
+            )}
         </div>
     );
 };
