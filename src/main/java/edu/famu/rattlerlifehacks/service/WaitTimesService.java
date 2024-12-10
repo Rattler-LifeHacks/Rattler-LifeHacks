@@ -73,3 +73,4 @@ public class WaitTimesService {
         return waitTimesList;
     }
 }
+

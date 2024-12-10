@@ -50,7 +50,7 @@ const Create = () => {
 
     return (
         <div>
-            <Navbar />
+            
     <div className="create-container">
         <h1>Create New Account</h1>
 

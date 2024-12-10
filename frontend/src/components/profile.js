@@ -82,12 +82,20 @@ const Profile = ({ user, setUser }) => {
     };
 
     return (
-        <div>
-            <Navbar />
-            <h2 style={{ textAlign: "center" }}>{user?.name || "Your Profile"}</h2>
-            {/* Display profile picture */}
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center", // Center everything horizontally and vertically
+                height: "100vh", // Ensure the content takes full viewport height
+                padding: "20px",
+            }}
+        >
+            <h2 style={{ textAlign: "center", color: "#1b5633" }}>{user?.name || "Your Profile"}</h2>
+
+            {/* Profile Picture */}
             <div
-                className="profile-container"
                 style={{
                     display: "flex",
                     justifyContent: "center",
@@ -99,13 +107,15 @@ const Profile = ({ user, setUser }) => {
                     src={profilePicture || "https://via.placeholder.com/150"}
                     alt="Profile"
                     style={{
-                        width: "150px",
-                        height: "150px",
+                        width: "100%",
+                        height: "100%",
                         borderRadius: "50%",
                         border: "2px solid green",
                     }}
                 />
             </div>
+
+            {/* Change Profile Picture */}
             <div style={{ textAlign: "center", marginBottom: "20px" }}>
                 <label htmlFor="profilePicture" className="green-label">
                     Change Profile Picture:
@@ -130,17 +140,19 @@ const Profile = ({ user, setUser }) => {
                         padding: "5px 10px",
                         borderRadius: "5px",
                         cursor: "pointer",
+                      
                     }}
                 >
                     Upload Picture
                 </button>
             </div>
+
+            {/* Update Username */}
             <h2 style={{ color: "#1b5633", textAlign: "center" }}>Update Username</h2>
             <p style={{ textAlign: "left", color: "#1b5633" }}>
                 <strong>Username:</strong> {user?.userId || "No username available"}
             </p>
             <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                
                 <input
                     type="text"
                     placeholder="Enter New Username"
@@ -168,6 +180,8 @@ const Profile = ({ user, setUser }) => {
                     Update Username
                 </button>
             </div>
+
+            {/* Delete Profile */}
             <div style={{ textAlign: "center" }}>
                 <button
                     onClick={deleteProfileHandler}

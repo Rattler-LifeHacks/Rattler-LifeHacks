@@ -1,13 +1,14 @@
 body {
-  margin: 0;
+  margin: 50px;
   padding: 0;
+  
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
   sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #ffffff;
-  height: 100%; /* Ensure body takes full height of the viewport */
+  height: 100hv; /* Ensure body takes full height of the viewport */
   width: 100%;
   display: flex; /* Use flexbox to center the content */
   justify-content: center; /* Align content horizontally in the center */
@@ -33,10 +34,14 @@ code {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
   text-align: center;
 }
- h1,h2{
+ h2{
   margin-top: 0;
+    z-index: 60; /* Or a higher value */
+    position: relative; /* Ensure proper stacking order */
+ 
  }
 h1 {
+  margin-top: 30%;
   font-size: 2rem;
   color: #1b5633;
   margin-bottom: 20px;
@@ -88,15 +93,16 @@ button:active {
 /*Create styles*/
 
 body {
-  margin: 0; /* Remove default margin */
+  margin: 0px; /* Remove default margin */
   padding: 0; /* Remove default padding */
   font-family: Arial, sans-serif; /* Set a global font */
   background-color: #ee7624; /* Set the background color to orange */
-  height: 100%; /* Ensure the body takes up the full viewport height */
+  height: 100hv; /* Ensure the body takes up the full viewport height */
   width: 100%;
   display: flex; /* Use flexbox to center the container */
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 /* Center the entire form container */
 
@@ -167,7 +173,12 @@ button:active {
   margin: 10px 0;
 }
 .dropdown-nav {
-  position: relative;
+  
+  top: 0;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  z-index: 10;
 }
 
 .dropdown-toggle {
@@ -189,6 +200,7 @@ button:active {
   list-style: none;
   padding: 10px 0;
   margin: 0;
+
   width: 100%;
   z-index: 10;
 }
@@ -214,6 +226,7 @@ button:active {
 .dropdown-menu li button:hover {
   background-color: #f1f1f1;
 }
+
 /* event styles */
 .events-container {
   font-family: Arial, sans-serif;
@@ -322,7 +335,7 @@ h1 {
   flex-direction: column; /* Stack items vertically */
   align-items: center; /* Horizontally center the items */
   justify-content: center; /* Vertically center the items */
-  height: 100%; /* Full height of the container */
+  height: auto; /* Full height of the container */
   text-align: center; /* Center-align text */
   padding: 20px;
   box-sizing: border-box; /* Ensure padding doesn't affect dimensions */

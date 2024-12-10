@@ -45,7 +45,7 @@ const Events = () => {
 
     return (
         <div>
-            <Navbar />
+           
         <div className="events-container">
             {/* Banner */}
             <div className="banner">

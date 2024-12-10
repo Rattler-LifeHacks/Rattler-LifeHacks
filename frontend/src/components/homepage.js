@@ -15,7 +15,7 @@ export default function App() {
     }, []);
     return (
         <div>
-              <Navbar />
+            
             <h1>Rattler Life Hacks</h1>
             <View style={styles.container}>
                 <View style={styles.header}>

@@ -15,7 +15,7 @@ const StudyRooms = () => {
 
     return (
         <div>
-              <Navbar />
+            
             <h1>Study Rooms</h1>
             <ul>
                 {studyRooms.map((room) => (

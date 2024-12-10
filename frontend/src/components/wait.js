@@ -24,7 +24,7 @@ const WaitTimes = () => {
 
     return (
         <div>
-            <Navbar />
+           
             <h1>Wait Times</h1>
             {error && <p className="error-message">{error}</p>}
             {waitTimes.length > 0 ? (
