@@ -97,12 +97,12 @@ button:active {
 
 /*Create styles*/
 
-body {
+body,html {
   margin: 0px; /* Remove default margin */
   padding: 0; /* Remove default padding */
   font-family: Arial, sans-serif; /* Set a global font */
   background-color: #ee7624; /* Set the background color to orange */
-  height: 100hv; /* Ensure the body takes up the full viewport height */
+  height: 100%; /* Ensure the body takes up the full viewport height */
   width: 100%;
   display: flex; /* Use flexbox to center the container */
   justify-content: center;
@@ -113,7 +113,12 @@ body {
 
 .create-container {
   max-width: 600px;
-  margin: auto;
+  
+  margin: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   background-color: #ee7624; /* White background for the form */
   text-align: center;

@@ -1,76 +1,72 @@
-import React, {useEffect, useState} from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import axios from 'axios';
-import {Link, useNavigate} from "react-router-dom";
-import Navbar from "./navbar";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import Navbar from "./navbar"; // If you already have a Navbar, you can leave this in
 
-export default function App() {
+export default function Homepage() {
     const [events, setEvents] = useState([]);
 
     useEffect(() => {
         axios
-            .get("http:localhost:8080/api/events/")
+            .get("http://localhost:8080/api/events/") // Ensure this URL is correct
             .then((response) => setEvents(response.data.data))
             .catch((error) => console.error(error));
     }, []);
+
     return (
-        <div>
-            
-            <h1>Rattler Life Hacks</h1>
-            <View style={styles.container}>
-                <View style={styles.header}>
-                    <Text style={styles.headerText}>Rattler Life Hacks</Text>
-                    <Text style={styles.subText}>Welcome to the Hill, Rattlers!</Text>
-                </View>
-                <View style={styles.main}>
-                    <Image
-                        source={require('./welcome-banner.jpg')}
-                        style={styles.banner}
-                    />
-                    <Text style={styles.sectionHeader}>Upcoming Events</Text>
-                    <View> {events.map((event, index) => {
-                            return (<Text>{event.title}</Text>)
-                        }
-                    )
+        <div className="home-page" style={styles.homePage}>
+            <Navbar />
+            <div className="container">
+                {/* Banner Section */}
+                <div className="banner">
+                    <h1 className="banner-text">Welcome to the Hill, Rattlers</h1>
+                </div>
 
-                    }
-                    </View>
-                </View>
-                <View style={styles.navBar}>
-                    <TouchableOpacity>
-                        <Image source={require('/assets/person-icon.png')} style={styles.icon}/>
-                        <Text>Info</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Image source={require('/assets/home-icon.png')} style={styles.icon}/>
-                        <Text>Home</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Image source={require('/assets/calendar-icon.png')} style={styles.icon}/>
-                        <Text>Calendar</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Image source={require('/assets/rattler-icon.png')} style={styles.icon}/>
-                        <Text>Balance</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Image source={require('/assets/clock-icon.png')} style={styles.icon}/>
-                        <Text>Wait Times</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
+                <div className="main">
+                    
+                    <div>
+                        {events.map((event, index) => (
+                            <p key={index}>{event.title}</p>
+                        ))}
+                    </div>
+                </div>
+
+                {/* NavBar has been removed */}
+            </div>
         </div>
-            );
-            }
+    );
+}
 
-            const styles = StyleSheet.create({
-            container: {flex: 1},
-            header: {backgroundColor: '#228B22', padding: 20},
-            headerText: {color: 'white', fontSize: 24, textAlign: 'center'},
-            subText: {color: 'white', textAlign: 'center'},
-            main: {padding: 20},
-            banner: {width: '100%', height: 200},
-            sectionHeader: {fontSize: 20, marginVertical: 10},
-            navBar: {flexDirection: 'row', justifyContent: 'space-around', padding: 10, backgroundColor: '#222'},
-            icon: {width: 24, height: 24}
-        });
+const styles = {
+    container: { 
+        flex: 1, 
+        paddingBottom: "80px", // Add bottom padding to avoid overlap if needed
+        position: "relative", // Ensure it's positioned correctly
+    },
+    header: { backgroundColor: "#228B22", padding: "20px" },
+    headerText: { color: "white", fontSize: "24px", textAlign: "center" },
+    subText: { color: "white", textAlign: "center" },
+    main: { padding: "20px" },
+    banner: { 
+        backgroundColor: "rgba(34, 139, 34, 0.7)", // Semi-transparent background for better contrast on banner
+        padding: "20px", // Padding for spacing around the text
+        textAlign: "center", // Center the text
+    },
+    bannerText: { 
+        color: "white", // Text color
+        fontSize: "36px", // Font size for the banner text
+        fontWeight: "bold", // Make the text bold
+    },
+    sectionHeader: { fontSize: "20px", marginVertical: "10px" },
+    homePage: {
+        position:"absolute",
+        backgroundImage: "url('/assets/home.jpeg')", // The background image URL
+        backgroundSize: "cover", // Make sure the image covers the entire background
+        backgroundPosition: "center", // Center the image
+        minHeight: "100px", // Ensure the background covers the full height of the page
+        display: "flex",
+        width: "100%",
+        height: "100%",
+        flexDirection: "column", // Allow elements to stack vertically
+    }
+};

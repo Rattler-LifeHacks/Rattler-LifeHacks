@@ -9,7 +9,7 @@ import StudyRooms from "./components/study"; // Correct path for study.js
 import Events from "./components/events"; // Correct path for events.js
 import Navbar from "./components/navbar"; // Correct path for navbar.js
 import Logout from "./components/logout";
-
+import Homepage from "./components/homepage"; //LOOK HERE
 const App = () => {
     const [user, setUser] = useState(null); // State to track logged-in user
 
@@ -20,11 +20,15 @@ const App = () => {
                 {/* Public Routes */}
                 <Route
                     path="/"
-                    element={user ? <Navigate to="/profile" /> : <Login setUser={setUser} />}
+                    element={user ? <Navigate to="/home" /> : <Login setUser={setUser} />}
                 />
                 <Route path="/create" element={<Create />} />
 
                 {/* Protected Routes */}
+                <Route
+                    path="/home"
+                    element={user ? <Homepage /> : <Navigate to="/" />}
+                />
                 <Route
                     path="/profile"
                     element={user ? <Profile user={user} setUser={setUser} /> : <Navigate to="/" />}
@@ -42,9 +46,9 @@ const App = () => {
                     element={user ? <Events /> : <Navigate to="/" />}
                 />
                 <Route
-    path="/logout"
-    element={user ? <Logout setUser={setUser} /> : <Navigate to="/" />}
-/>
+                    path="/logout"
+                    element={user ? <Logout setUser={setUser} /> : <Navigate to="/" />}
+                />
 
             </Routes>
         </Router>

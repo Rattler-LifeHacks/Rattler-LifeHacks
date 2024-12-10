@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 
 const Login = ({ setUser }) => {
     const [userId, setUserId] = useState(""); // State for User ID
     const [password, setPassword] = useState(""); // State for Password
+    const navigate = useNavigate(); // Initialize navigate
 
     const loginHandler = async () => {
         try {
             // Send POST request with userId and password
             const response = await axios.post("/api/user/login", {
-                userId, // Corrected variable name
-                password, // Corrected variable name
+                userId,
+                password,
             });
 
             if (response.data.success) {
                 setUser(response.data.data); // Pass user data to parent
-                alert("Login Successful");
+                navigate("/home"); // Redirect to the homepage after login
             } else {
                 alert(response.data.message || "Invalid User ID or Password");
             }
@@ -32,9 +33,18 @@ const Login = ({ setUser }) => {
 
     return (
         <div>
-    
             <h1>Rattler Life Hacks</h1>
-            <img src="/assets/famulogo1.png" alt="FAMU Logo" />
+            <img
+                src="/assets/famulogo1.png"
+                alt="FAMU Logo"
+                style={{
+                    display: "block",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    maxWidth: "100%",
+                    maxHeight: "100vh",
+                }}
+            />
             <div>
                 <label htmlFor="userId" className="green-text">User ID:</label>
                 <input
