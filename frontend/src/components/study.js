@@ -16,7 +16,7 @@ const StudyRooms = () => {
     return (
         <div>
             
-            <h1>Study Rooms</h1>
+            <h4>Study Rooms</h4>
             <ul>
                 {studyRooms.map((room) => (
                     <li key={room.roomId}>{room.roomName}</li>

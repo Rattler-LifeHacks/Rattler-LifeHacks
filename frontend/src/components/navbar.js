@@ -1,23 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 function Navbar({ onToggle }) {
     const [dropdownOpen, setDropdownOpen] = useState(false); // State to toggle the dropdown
+    const [dropdownWidth, setDropdownWidth] = useState(null); // State for dropdown width
+    const buttonRef = useRef(null); // Ref for the menu button
 
     const handleDropdownToggle = () => {
         const newState = !dropdownOpen;
         setDropdownOpen(newState);
         if (onToggle) {
-            onToggle(newState); // Notify the parent about the expanded/collapsed state
+            onToggle(newState); // Notify parent about dropdown state
         }
     };
 
     useEffect(() => {
-        // Notify the parent about the initial state of the dropdown
-        if (onToggle) {
-            onToggle(dropdownOpen);
+        if (buttonRef.current) {
+            setDropdownWidth(buttonRef.current.offsetWidth); // Match dropdown width to button
         }
-    }, [dropdownOpen, onToggle]);
+    }, [dropdownOpen]);
 
     return (
         <nav
@@ -30,20 +31,21 @@ function Navbar({ onToggle }) {
                 backgroundColor: "#1b5633",
                 zIndex: 1000,
                 display: "flex",
-                justifyContent: "center", // Center the menu button horizontally
-                padding: "5px 0", // Reduced padding to make the navbar thinner
+                justifyContent: "center",
+                padding: "5px 0",
                 boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
             }}
         >
             <button
+                ref={buttonRef}
                 className="dropdown-toggle"
                 onClick={handleDropdownToggle}
                 style={{
                     backgroundColor: "#1b5633",
                     border: "1px solid #1b5633",
                     color: "white",
-                    fontSize: "16px", // Reduced font size to make it more compact
-                    padding: "5px 10px", // Reduced padding to make the button smaller
+                    fontSize: "16px",
+                    padding: "5px 10px",
                     borderRadius: "5px",
                     cursor: "pointer",
                 }}
@@ -54,17 +56,17 @@ function Navbar({ onToggle }) {
                 <ul
                     className="dropdown-menu"
                     style={{
-                        position: "absolute", // Place the dropdown menu relative to the button
-                        top: "100%", // Position it below the button
+                        position: "absolute",
+                        top: "100%",
                         left: "50%",
                         transform: "translateX(-50%)",
                         backgroundColor: "#1b5633",
                         listStyleType: "none",
-                        padding: "5px", // Reduced padding for a thinner menu
+                        padding: "10px 0",
                         margin: 0,
                         borderRadius: "5px",
                         boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                        width: "200px", // Adjust width as needed
+                        width: `${dropdownWidth}px`,
                         textAlign: "center",
                     }}
                 >
@@ -89,11 +91,8 @@ function Navbar({ onToggle }) {
                         </Link>
                     </li>
                     <li>
-                        <button
-                            onClick={() => {
-                                sessionStorage.clear();
-                                // Notify parent or handle logout logic here
-                            }}
+                    <Link
+                            to="/logout"
                             style={{
                                 backgroundColor: "red",
                                 color: "white",
@@ -101,10 +100,13 @@ function Navbar({ onToggle }) {
                                 padding: "5px 10px",
                                 borderRadius: "5px",
                                 cursor: "pointer",
+                                textDecoration: "none",
+                                display: "inline-block",
                             }}
                         >
                             Logout
-                        </button>
+                        </Link>
+                        
                     </li>
                 </ul>
             )}
@@ -113,3 +115,4 @@ function Navbar({ onToggle }) {
 }
 
 export default Navbar;
+

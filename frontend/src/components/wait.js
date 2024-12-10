@@ -25,20 +25,20 @@ const WaitTimes = () => {
     return (
         <div>
            
-            <h1>Wait Times</h1>
-            {error && <p className="error-message">{error}</p>}
+            <h1 style={{ textAlign: "center", color: "#1b5633" }}>Wait Times</h1>
+            {error && <p className="error-message" style={{ color: "red", textAlign: "center" }}>{error}</p>}
             {waitTimes.length > 0 ? (
-                <ul>
+                <div className="wait-times-container">
                     {waitTimes.map((wt) => (
-                        <li key={wt.locationId}>
-                            <strong>Location:</strong> {wt.locationId} <br />
-                            <strong>Type:</strong> {wt.locationType} <br />
-                            <strong>Wait Time:</strong> {wt.currentWaitTime} mins
-                        </li>
+                        <div key={wt.locationId} className="wait-time-card">
+                            <h3 style={{ color: "#1b5633" }}>{wt.locationId}</h3>
+                            <p><strong>Type:</strong> {wt.locationType}</p>
+                            <p><strong>Wait Time:</strong> {wt.currentWaitTime} mins</p>
+                        </div>
                     ))}
-                </ul>
+                </div>
             ) : (
-                <p>No wait times available.</p>
+                <p style={{ textAlign: "center" }}>No wait times available.</p>
             )}
         </div>
     );

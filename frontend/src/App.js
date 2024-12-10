@@ -8,6 +8,7 @@ import WaitTimes from "./components/wait"; // Correct path for wait.js
 import StudyRooms from "./components/study"; // Correct path for study.js
 import Events from "./components/events"; // Correct path for events.js
 import Navbar from "./components/navbar"; // Correct path for navbar.js
+import Logout from "./components/logout";
 
 const App = () => {
     const [user, setUser] = useState(null); // State to track logged-in user
@@ -40,6 +41,11 @@ const App = () => {
                     path="/events"
                     element={user ? <Events /> : <Navigate to="/" />}
                 />
+                <Route
+    path="/logout"
+    element={user ? <Logout setUser={setUser} /> : <Navigate to="/" />}
+/>
+
             </Routes>
         </Router>
     );

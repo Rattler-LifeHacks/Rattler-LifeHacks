@@ -66,7 +66,7 @@ const Events = () => {
                 ) : (
                     <p>No upcoming events available.</p>
                 )}
-            </div>
+          
 
             {/* Event Creation Form */}
             <div className="event-creation">
@@ -84,6 +84,7 @@ const Events = () => {
                 />
                 <button onClick={createEventHandler}>Create Event</button>
             </div>
+        </div>
         </div>
         </div>
     );
