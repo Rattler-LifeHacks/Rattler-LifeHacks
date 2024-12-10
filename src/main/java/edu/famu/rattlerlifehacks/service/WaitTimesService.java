@@ -2,17 +2,16 @@ package edu.famu.rattlerlifehacks.service;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.Timestamp;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
+import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import edu.famu.rattlerlifehacks.model.Events;
 import edu.famu.rattlerlifehacks.model.WaitTimes;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -60,5 +59,17 @@ public class WaitTimesService {
 
     }
 
+    public List<WaitTimes> getAllWaitTimes() throws ExecutionException, InterruptedException {
+        CollectionReference waitTimesCollection = FirestoreClient.getFirestore().collection(WAITTIMES_COLLECTION);
+        ApiFuture<QuerySnapshot> querySnapshot = waitTimesCollection.get();
+        List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
 
+        List<WaitTimes> waitTimesList = new ArrayList<>();
+        for (QueryDocumentSnapshot document : documents) {
+            WaitTimes waitTime = document.toObject(WaitTimes.class);
+            waitTimesList.add(waitTime);
+        }
+
+        return waitTimesList;
+    }
 }
