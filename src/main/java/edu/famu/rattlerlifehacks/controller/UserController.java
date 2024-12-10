@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -64,7 +66,7 @@ public class UserController {
     @DeleteMapping("/delete/{userId}")
     public ResponseEntity<ApiResponse<User>> deleteUserbyId(@PathVariable String userId) {
         try {
-            // Call the updated service method (non-static version)
+            // Call the service method to delete the user
             boolean deleted = service.deleteUserbyId(userId);
 
             if (deleted) {
@@ -72,6 +74,8 @@ public class UserController {
             } else {
                 return ResponseEntity.status(404).body(new ApiResponse<>(false, "User not found", null, null));
             }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(400).body(new ApiResponse<>(false, e.getMessage(), null, null));
         } catch (Exception e) {
             return ResponseEntity.status(500).body(new ApiResponse<>(false, "Internal Server Error", null, e));
         }
@@ -81,6 +85,11 @@ public class UserController {
     @PostMapping("/create")
     public ResponseEntity<ApiResponse<User>> createUser(@RequestBody User users) {
         try {
+            // Assign default profile picture URL if not provided
+            if (users.getProfilePictureUrl() == null || users.getProfilePictureUrl().isEmpty()) {
+                users.setProfilePictureUrl("https://via.placeholder.com/150"); // Default profile picture
+            }
+
             // Call the service to create the user
             User createdUser = service.createUser(users);
 
@@ -99,6 +108,7 @@ public class UserController {
             return ResponseEntity.status(500).body(new ApiResponse<>(false, "Internal Server Error", null, e));
         }
     }
+
 
 
     @PostMapping("/login")
@@ -144,6 +154,27 @@ public class UserController {
         }
     }
 
+    @PutMapping("/updateProfilePicture/{userId}")
+    public ResponseEntity<ApiResponse<String>> updateProfilePicture(
+            @PathVariable String userId,
+            @RequestParam String profilePictureUrl) {
+        try {
+            Map<String, Object> updates = new HashMap<>();
+            updates.put("profilePictureUrl", profilePictureUrl);
+
+            boolean updated = service.updateUserField(userId, updates);
+
+            if (updated) {
+                return ResponseEntity.ok(new ApiResponse<>(true, "Profile picture updated successfully", null, null));
+            } else {
+                return ResponseEntity.status(400).body(new ApiResponse<>(false, "Failed to update profile picture", null, null));
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(400).body(new ApiResponse<>(false, e.getMessage(), null, null));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(new ApiResponse<>(false, "Internal Server Error", null, e));
+        }
+    }
 
 
 }

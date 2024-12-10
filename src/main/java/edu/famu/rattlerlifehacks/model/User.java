@@ -14,5 +14,5 @@ public class User {
     String email;
     String userId;
     String password;
-
+    String profilePictureUrl;
 }

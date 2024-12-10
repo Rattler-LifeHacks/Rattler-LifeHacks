@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 public class RestUser extends AUser{
 
     public RestUser(String username, String password) {
-
+            this.userId = username;
+            this.password = password;
     }
 
 }

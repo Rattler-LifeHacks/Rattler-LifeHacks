@@ -5,8 +5,8 @@ import Navbar from "./navbar";
 
 const Profile = ({ user, setUser }) => {
     const [newUsername, setNewUsername] = useState("");
-    const [profilePicture, setProfilePicture] = useState(user?.profilePicture || ""); // State for profile picture
-    const [selectedFile, setSelectedFile] = useState(null); // File for upload
+    const [profilePicture, setProfilePicture] = useState(user?.profilePictureUrl || ""); // State for profile picture
+    const [selectedProfilePicture, setSelectedProfilePicture] = useState("/assets/avatar1.jpg"); // Default profile picture
 
     const updateUsernameHandler = async () => {
         if (!newUsername.trim()) {
@@ -32,32 +32,27 @@ const Profile = ({ user, setUser }) => {
         }
     };
 
-    const uploadProfilePicture = async () => {
-        if (!selectedFile) {
-            alert("Please select a file.");
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append("file", selectedFile);
-        formData.append("userId", user.userId);
-
+    const updateProfilePictureHandler = async () => {
         try {
-            const response = await axios.post("http://localhost:8080/api/user/uploadProfilePicture", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            });
+            const response = await axios.put(
+                `http://localhost:8080/api/user/updateProfilePicture/${user.userId}`,
+                null,
+                {
+                    params: {
+                        profilePictureUrl: selectedProfilePicture,
+                    },
+                }
+            );
 
             if (response.data.success) {
                 alert("Profile picture updated successfully!");
-                setProfilePicture(response.data.profilePictureUrl); // Update the profile picture
+                setProfilePicture(selectedProfilePicture); // Update the profile picture locally
             } else {
-                alert(response.data.message || "Failed to upload profile picture.");
+                alert(response.data.message || "Failed to update profile picture.");
             }
         } catch (error) {
-            console.error("Error uploading profile picture:", error);
-            alert("Error uploading profile picture. Please try again.");
+            console.error("Error updating profile picture:", error);
+            alert("Error updating profile picture. Please try again.");
         }
     };
 
@@ -87,8 +82,8 @@ const Profile = ({ user, setUser }) => {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
-                alignItems: "center", // Center everything horizontally and vertically
-                height: "100vh", // Ensure the content takes full viewport height
+                alignItems: "center",
+                height: "100vh",
                 padding: "20px",
             }}
         >
@@ -107,8 +102,8 @@ const Profile = ({ user, setUser }) => {
                     src={profilePicture || "https://via.placeholder.com/150"}
                     alt="Profile"
                     style={{
-                        width: "100%",
-                        height: "100%",
+                        width: "150px",
+                        height: "150px",
                         borderRadius: "50%",
                         border: "2px solid green",
                     }}
@@ -118,32 +113,35 @@ const Profile = ({ user, setUser }) => {
             {/* Change Profile Picture */}
             <div style={{ textAlign: "center", marginBottom: "20px" }}>
                 <label htmlFor="profilePicture" className="green-label">
-                    Change Profile Picture:
+                    Choose Profile Picture:
                 </label>
-                <input
-                    type="file"
+                <select
                     id="profilePicture"
                     style={{
                         border: "2px solid #1b5633",
                         padding: "5px",
                         borderRadius: "5px",
+                        marginRight: "10px",
                     }}
-                    onChange={(e) => setSelectedFile(e.target.files[0])}
-                />
+                    value={selectedProfilePicture}
+                    onChange={(e) => setSelectedProfilePicture(e.target.value)}
+                >
+                    <option value="/assets/avatar1.jpg">Avatar 1</option>
+                    <option value="/assets/avatar2.jpg">Avatar 2</option>
+                    <option value="/assets/avatar3.jpg">Avatar 3</option>
+                </select>
                 <button
-                    onClick={uploadProfilePicture}
+                    onClick={updateProfilePictureHandler}
                     style={{
                         backgroundColor: "#1b5633",
                         color: "white",
-                        marginLeft: "0px",
                         border: "none",
                         padding: "5px 10px",
                         borderRadius: "5px",
                         cursor: "pointer",
-                      
                     }}
                 >
-                    Upload Picture
+                    Update Picture
                 </button>
             </div>
 
@@ -170,7 +168,6 @@ const Profile = ({ user, setUser }) => {
                     style={{
                         backgroundColor: "#1b5633",
                         color: "white",
-                        marginLeft: "0px",
                         border: "none",
                         padding: "5px 10px",
                         borderRadius: "5px",

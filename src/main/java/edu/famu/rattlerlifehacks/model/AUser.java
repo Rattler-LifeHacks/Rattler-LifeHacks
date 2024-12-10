@@ -8,4 +8,5 @@ public class AUser {
     String email;
     String userId;
     String password;
+    String profilePictureUrl;
 }

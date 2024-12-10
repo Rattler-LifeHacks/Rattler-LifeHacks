@@ -2,10 +2,14 @@ package edu.famu.rattlerlifehacks.service;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.Bucket;
 import com.google.firebase.cloud.FirestoreClient;
+import com.google.firebase.cloud.StorageClient;
 import edu.famu.rattlerlifehacks.model.Events;
 import edu.famu.rattlerlifehacks.model.User;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -65,30 +69,32 @@ public class UserService {
         return users;
     }
 
-    public static boolean deleteUserbyId(String userId) throws ExecutionException, InterruptedException {
-        // Reference to the collection
-        CollectionReference usersCollection = firestore.collection(USER_COLLECTION);
+    public boolean deleteUserbyId(String userId) throws ExecutionException, InterruptedException {
+        // Query to locate the document based on the actual `userId` field
+        Query userQuery = firestore.collection(USER_COLLECTION)
+                .whereEqualTo("userId", userId)
+                .limit(1); // Assuming `userId` is unique
 
-        // Query for the document where the userId field matches the input userId
-        Query query = usersCollection.whereEqualTo("userId", userId);
-        ApiFuture<QuerySnapshot> querySnapshotFuture = query.get();
-        QuerySnapshot querySnapshot = querySnapshotFuture.get();
+        // Get the query result
+        ApiFuture<QuerySnapshot> querySnapshot = userQuery.get();
+        List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
 
-        if (querySnapshot.isEmpty()) {
-            return false; // User not found, nothing to delete
+        // If no document is found, return false
+        if (documents.isEmpty()) {
+            return false; // User not found
         }
 
-        // Get the first matching document (assuming userId is unique)
-        DocumentSnapshot userSnap = querySnapshot.getDocuments().get(0);
+        // Get the reference to the document to delete
+        DocumentReference userRef = documents.get(0).getReference();
 
-        // Delete the document
-        ApiFuture<WriteResult> writeResult = userSnap.getReference().delete();
+        // Delete the user document
+        ApiFuture<WriteResult> writeResult = userRef.delete();
+        writeResult.get(); // Wait for the delete operation to complete
 
-        // Check if the delete operation was successful
-        WriteResult result = writeResult.get();
-
-        return result != null;
+        return true; // User deleted successfully
     }
+
+
 
 
 
@@ -102,6 +108,10 @@ public class UserService {
             throw new IllegalArgumentException("Email cannot be null or empty");
         }
 
+        // Assign default profile picture URL if not provided
+        if (users.getProfilePictureUrl() == null || users.getProfilePictureUrl().isEmpty()) {
+            users.setProfilePictureUrl("https://via.placeholder.com/150"); // Default profile picture
+        }
 
         // Reference to the user's document in the collection
         DocumentReference userRef = firestore.collection(USER_COLLECTION).document(users.getUserId());
@@ -118,6 +128,7 @@ public class UserService {
 
         return users; // Return the saved user object
     }
+
 
 
     public User loginUser(String email, String password) throws ExecutionException, InterruptedException {
@@ -200,6 +211,53 @@ public class UserService {
 
         return true; // Successfully updated the userId
     }
+
+    public boolean updateUserField(String userId, Map<String, Object> updates) throws ExecutionException, InterruptedException {
+        // Locate the user document based on the userId field
+        Query userQuery = firestore.collection(USER_COLLECTION)
+                .whereEqualTo("userId", userId)
+                .limit(1);
+
+        // Get the user's document snapshot
+        ApiFuture<QuerySnapshot> querySnapshot = userQuery.get();
+        List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
+
+        if (documents.isEmpty()) {
+            throw new IllegalArgumentException("User not found with userId: " + userId);
+        }
+
+        DocumentSnapshot userSnap = documents.get(0);
+        DocumentReference userRef = userSnap.getReference();
+
+        // Update the specified fields
+        ApiFuture<WriteResult> updateFuture = userRef.update(updates);
+        updateFuture.get(); // Wait for the update to complete
+
+        return true; // Successfully updated the user field(s)
+    }
+
+
+
+    public String uploadProfilePicture(MultipartFile file, String userId) throws Exception {
+        // Define the file name
+        String fileName = "profile_pictures/" + userId + "-" + System.currentTimeMillis() + ".jpg";
+
+        // Reference to the Firebase Storage bucket
+        Bucket bucket = StorageClient.getInstance().bucket();
+
+        // Upload the file to Firebase Storage
+        Blob blob = bucket.create(fileName, file.getBytes(), file.getContentType());
+
+        // Get the public download URL
+        String downloadUrl = String.format("https://storage.googleapis.com/%s/%s", bucket.getName(), blob.getName());
+
+        // Update the Firestore user document with the profile picture URL
+        DocumentReference userRef = firestore.collection(USER_COLLECTION).document(userId);
+        userRef.update("profilePictureUrl", downloadUrl).get(); // Wait for the update to complete
+
+        return downloadUrl;
+    }
+
 
 
 }

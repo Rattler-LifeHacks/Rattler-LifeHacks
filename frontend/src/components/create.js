@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import {Link, useNavigate} from "react-router-dom";
-import Navbar from "./navbar"; // For redirecting after account creation
+import { Link, useNavigate } from "react-router-dom";
 
 const Create = () => {
     const [username, setUsername] = useState(""); // State for username
@@ -11,9 +10,8 @@ const Create = () => {
     const [successMessage, setSuccessMessage] = useState(""); // State for success messages
     const navigate = useNavigate(); // For redirecting to login after successful account creation
 
-    // Handle form submission to create a user
     const createUserHandler = async (e) => {
-        e.preventDefault(); // Prevent the default form submission behavior
+        e.preventDefault(); // Prevent default form submission
         setErrorMessage(""); // Clear previous error messages
         setSuccessMessage(""); // Clear previous success messages
 
@@ -25,13 +23,13 @@ const Create = () => {
 
         // Prepare the user data
         const userData = {
-            userId: username, // Adjusted to match the expected "userId" field in the backend
+            userId: username,
             email,
             password,
+            profilePictureUrl: "https://via.placeholder.com/150", // Default profile picture
         };
 
         try {
-            // Make POST request to create user
             const response = await axios.post("http://localhost:8080/api/user/create", userData);
 
             if (response.data.success) {
@@ -49,39 +47,37 @@ const Create = () => {
     };
 
     return (
-        <div>
-            
-    <div className="create-container">
-        <h1>Create New Account</h1>
+        <div className="create-container">
+            <h1>Create New Account</h1>
 
-        {/* Success or error messages */}
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        {successMessage && <p className="success-message">{successMessage}</p>}
+            {/* Success or error messages */}
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
+            {successMessage && <p className="success-message">{successMessage}</p>}
 
-        {/* Form to create a new user */}
-        <form onSubmit={createUserHandler}>
-            <div>
-                <label htmlFor="username" className="green-label">USERNAME</label>
-                <input
-                    type="text"
-                    id="username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Enter your username"
-                />
-            </div>
-            <div>
-                <label htmlFor="email" className="green-label">EMAIL</label>
-                <input
-                    type="email"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+            {/* Form to create a new user */}
+            <form onSubmit={createUserHandler}>
+                <div>
+                    <label htmlFor="username">Username</label>
+                    <input
+                        type="text"
+                        id="username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        placeholder="Enter your username"
+                    />
+                </div>
+                <div>
+                    <label htmlFor="email">Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         placeholder="Enter your email"
                     />
                 </div>
                 <div>
-                    <label htmlFor="password" className="green-label">PASSWORD</label>
+                    <label htmlFor="password">Password</label>
                     <input
                         type="password"
                         id="password"
@@ -90,12 +86,9 @@ const Create = () => {
                         placeholder="Enter your password"
                     />
                 </div>
-
                 <button type="submit">Create Account</button>
             </form>
         </div>
-        </div>
-
     );
 };
 
