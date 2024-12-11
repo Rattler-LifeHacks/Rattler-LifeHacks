@@ -35,18 +35,15 @@ public class     EventsController {
         try {
             Events createdEvent = service.createEvent(event);
 
-            if (createdEvent != null) {
-                return ResponseEntity.ok(new ApiResponse<>(true, "Event created successfully", createdEvent, null));
-            } else {
-                return ResponseEntity.status(400).body(new ApiResponse<>(false, "Failed to create event", null, null));
-            }
-
+            return ResponseEntity.ok(new ApiResponse<>(true, "Event created successfully", createdEvent, null));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(400).body(new ApiResponse<>(false, e.getMessage(), null, null));
         } catch (ExecutionException | InterruptedException e) {
             return ResponseEntity.status(500).body(new ApiResponse<>(false, "Internal Server Error", null, e));
-
         }
-
     }
+
+
 
     @GetMapping("/")
     public ResponseEntity<ApiResponse<List<Events>>> getAllEvents() {
@@ -64,6 +61,7 @@ public class     EventsController {
     }
 
 
+
     @PutMapping("/update/{eventId}")
     public ResponseEntity<ApiResponse<Events>> updateEventTime(
             @PathVariable String eventId,
@@ -77,17 +75,16 @@ public class     EventsController {
             return ResponseEntity.status(500).body(new ApiResponse<>(false, "Internal Server Error", null, e));
         }
     }
-    @DeleteMapping ("delete/{eventId}")
-    public ResponseEntity<ApiResponse<User>> deleteEventbyId(@PathVariable String eventId) {
+    @DeleteMapping("/delete/{eventId}")
+    public ResponseEntity<ApiResponse<Void>> deleteEventbyId(@PathVariable String eventId) {
         try {
-            boolean deleted = EventsService.deleteEventbyId(eventId);
+            boolean deleted = service.deleteEventbyId(eventId);
 
             if (deleted) {
                 return ResponseEntity.ok(new ApiResponse<>(true, "Event deleted successfully", null, null));
             } else {
                 return ResponseEntity.status(404).body(new ApiResponse<>(false, "Event not found", null, null));
             }
-
         } catch (Exception e) {
             return ResponseEntity.status(500).body(new ApiResponse<>(false, "Internal Server Error", null, e));
         }
