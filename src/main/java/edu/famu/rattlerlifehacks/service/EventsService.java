@@ -7,6 +7,7 @@ import edu.famu.rattlerlifehacks.model.Events;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,13 +25,20 @@ public class EventsService {
 
     // Method to create a new event
     public Events createEvent(Events event) throws ExecutionException, InterruptedException {
-        DocumentReference eventRef = firestore.collection(EVENTS_COLLECTION).document();
-        event.setEventId(eventRef.getId());  // Set the auto-generated ID as the eventId
+        if (event.getTitle() == null || event.getTitle().isEmpty()) {
+            throw new IllegalArgumentException("Event title is required.");
+        }
+        if (event.getLocation() == null || event.getLocation().isEmpty()) {
+            throw new IllegalArgumentException("Event location is required.");
+        }
 
-        // Asynchronously save the event to Firestore
+        DocumentReference eventRef = firestore.collection(EVENTS_COLLECTION).document();
+        event.setEventId(eventRef.getId());  // Generate a unique eventId
+
         ApiFuture<WriteResult> writeResult = eventRef.set(event);
-        writeResult.get(); // Wait for the write operation to complete
-        return event;  // Return the saved event object
+        writeResult.get(); // Wait for write operation to complete
+
+        return event; // Return the saved event
     }
 
 
@@ -38,34 +46,57 @@ public class EventsService {
 
     public List<Events> getAllEvents() throws ExecutionException, InterruptedException {
         CollectionReference eventsCollection = firestore.collection(EVENTS_COLLECTION);
-
-        // Fetch all documents in the "Events" collection
         ApiFuture<QuerySnapshot> querySnapshot = eventsCollection.get();
         List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
 
-        // Initialize the events list
         List<Events> events = new ArrayList<>();
 
-        // Iterate over each document and map to Events object
         for (QueryDocumentSnapshot document : documents) {
             try {
-                Events event = document.toObject(Events.class);
-                event.setEventId(document.getId()); // Assign the Firestore document ID
-                events.add(event); // Add the event to the list
+                Events event = documentToEvent(document); // Use the helper method
+                if (event != null) {
+                    events.add(event); // Add event only if it's not null
+                }
             } catch (Exception e) {
-                throw new RuntimeException("Error parsing event document: " + document.getId(), e);
+                System.err.println("Error parsing event document: " + document.getId());
+                e.printStackTrace(); // Print full stack trace for debugging
             }
         }
 
-        return events;
+        System.out.println("Total events fetched: " + events.size()); // Debugging info
+        return events; // Return events or an empty list if no documents found
     }
 
 
 
-    // Helper method to convert a DocumentSnapshot to an Event object
-    private Events documentToEvent(DocumentSnapshot document) throws ParseException {
-        return document.exists() ? document.toObject(Events.class) : null;
+
+
+    private Events documentToEvent(DocumentSnapshot document) {
+        if (!document.exists()) {
+            return null;
+        }
+
+        try {
+            Events event = new Events();
+            event.setEventId(document.getId());
+            event.setTitle(document.getString("title"));
+            event.setLocation(document.getString("location"));
+            event.setDescription(document.getString("description"));
+
+            Timestamp timestamp = document.getTimestamp("date");
+            if (timestamp != null) {
+                event.setDate(timestamp.toString()); // Use the exact Firestore Timestamp string
+
+            }
+
+            return event;
+        } catch (Exception e) {
+            System.err.println("Error converting document to Event object: " + document.getId());
+            e.printStackTrace();
+            return null; // Return null if conversion fails
+        }
     }
+
 
     public  Events updateEventTime(String eventId, String title, String date) throws ExecutionException, InterruptedException, ParseException {
         DocumentReference eventRef = firestore.collection(EVENTS_COLLECTION).document(eventId);
@@ -86,21 +117,25 @@ public class EventsService {
 
     }
 
-    public static boolean deleteEventbyId(String eventId) throws ExecutionException, InterruptedException {
-        DocumentReference eventRef = firestore.collection(EVENTS_COLLECTION).document(eventId);
+    public boolean deleteEventbyId(String eventId) throws ExecutionException, InterruptedException {
+        // Query the collection where the eventId field matches the input eventId
+        CollectionReference eventsCollection = firestore.collection(EVENTS_COLLECTION);
+        Query query = eventsCollection.whereEqualTo("eventId", eventId).limit(1);
+        ApiFuture<QuerySnapshot> querySnapshotFuture = query.get();
+        QuerySnapshot querySnapshot = querySnapshotFuture.get();
 
-        // Check if the user exists before attempting to delete
-        DocumentSnapshot eventSnap = eventRef.get().get();
-        if (!eventSnap.exists()) {
-            return false; // User not found, nothing to delete
+        if (querySnapshot.isEmpty()) {
+            return false; // Event not found
         }
 
-        // Perform the delete operation
-        ApiFuture<WriteResult> writeResult = eventRef.delete();
+        // Get the first matching document (assuming eventId is unique)
+        DocumentSnapshot eventSnap = querySnapshot.getDocuments().get(0);
+        DocumentReference eventRef = eventSnap.getReference();
 
-        // Check if the delete operation was successful
-        WriteResult result = writeResult.get();
+        // Delete the document
+        ApiFuture<WriteResult> deleteFuture = eventRef.delete();
+        deleteFuture.get(); // Wait for the delete operation to complete
 
-        return result != null;
+        return true; // Event deleted successfully
     }
 }
