@@ -16,7 +16,7 @@ const Login = ({ setUser }) => {
             });
 
             if (response.data.success) {
-                setUser(response.data.data); // Pass user data to parent
+                setUser(response.data.data); // Pass user data to parent (likely App.js)
                 navigate("/home"); // Redirect to the homepage after login
             } else {
                 alert(response.data.message || "Invalid User ID or Password");
@@ -32,7 +32,7 @@ const Login = ({ setUser }) => {
     };
 
     return (
-        <div>
+        <div style={{ textAlign: "center", marginTop: "50px" }}>
             <h1>Rattler Life Hacks</h1>
             <img
                 src="/assets/famulogo1.png"
@@ -46,7 +46,9 @@ const Login = ({ setUser }) => {
                 }}
             />
             <div>
-                <label htmlFor="userId" className="green-text">User ID:</label>
+                <label htmlFor="userId" className="green-text">
+                    User ID:
+                </label>
                 <input
                     type="text"
                     id="userId"
@@ -56,7 +58,9 @@ const Login = ({ setUser }) => {
                 />
             </div>
             <div>
-                <label htmlFor="password" className="green-text">Password:</label>
+                <label htmlFor="password" className="green-text">
+                    Password:
+                </label>
                 <input
                     type="password"
                     id="password"

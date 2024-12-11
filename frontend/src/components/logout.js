@@ -28,4 +28,4 @@ function Logout({ setUser }) {
     );
 }
 
-export default Logout;
+export default Logout; // Add this line
