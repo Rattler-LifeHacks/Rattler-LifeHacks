@@ -8,10 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 
@@ -25,21 +22,37 @@ public class EventsService {
 
     // Method to create a new event
     public Events createEvent(Events event) throws ExecutionException, InterruptedException {
+        // Validate required fields
         if (event.getTitle() == null || event.getTitle().isEmpty()) {
             throw new IllegalArgumentException("Event title is required.");
         }
         if (event.getLocation() == null || event.getLocation().isEmpty()) {
             throw new IllegalArgumentException("Event location is required.");
         }
+        if (event.getDate() == null) {
+            throw new IllegalArgumentException("Event date is required.");
+        }
 
-        DocumentReference eventRef = firestore.collection(EVENTS_COLLECTION).document();
-        event.setEventId(eventRef.getId());  // Generate a unique eventId
+        // Ensure the date is a Firestore-compatible Timestamp
+        if (!(event.getDate() instanceof Timestamp)) {
+            throw new IllegalArgumentException("Event date must be a Firestore Timestamp.");
+        }
 
+        // Use the provided eventId or generate one if not present
+        DocumentReference eventRef = firestore.collection(EVENTS_COLLECTION).document(event.getEventId() != null ? event.getEventId() : firestore.collection(EVENTS_COLLECTION).document().getId());
+        event.setEventId(eventRef.getId());
+
+        // Save the event to Firestore
         ApiFuture<WriteResult> writeResult = eventRef.set(event);
-        writeResult.get(); // Wait for write operation to complete
+        writeResult.get(); // Wait for the write operation to complete
 
         return event; // Return the saved event
     }
+
+
+
+
+
 
 
 
