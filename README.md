@@ -5,6 +5,7 @@
 - [Wireframes](#wireframes)
 - [Schema](#schema)
 - [Backend Demonstration](#backend--api-demonstration-gif)
+- [Poster](#poster)
 
 ## Overview
 ### Description
@@ -34,7 +35,7 @@ For Rattlers LifeHacks, we identified the following "must-have" features that a 
 - [X] User can update their username
 - [X] User can update profile picture
 - [ ] User can search for events
-- [ ] User can view a feed of events
+- [X] User can view a feed of events
 - [ ] User can tap their RattlerCard
 - [ ] User can see food/financial aid wait times
 - [X] User can view study room availability
@@ -136,4 +137,12 @@ For Rattlers LifeHacks, we identified the following "must-have" features that a 
 ## Backend & API Demonstration (GIF)
 For the Rattler Life Hacks app, we developed a User model class in IntelliJ, which represents user data and interactions with Firebase. We included a unique service key for enhanced identification, along with two core methods: getAllUsers and getUserById. These methods are structured as service and controller files, establishing the key user interactions for retrieving all users or individual user data based on ID. Through these queries to the Firebase database, the app can efficiently access and manage user information, aligning with the app's back-end functionality requirements.
 ![App Demo](https://github.com/Rattler-LifeHacks/RattlerLifeHacks/blob/main/giphy.gif)
+
+## Updated GIF:
+https://github.com/user-attachments/assets/168f05c1-d569-414e-85a9-7205b0c78363
+
+# Poster
+<img width="559" alt="image" src="https://github.com/user-attachments/assets/ddcc86c3-266c-4b44-b63e-ef5142bbf6d9" />
+
+
 
