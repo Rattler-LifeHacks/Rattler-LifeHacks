@@ -5,6 +5,7 @@
 - [Wireframes](#wireframes)
 - [Schema](#schema)
 - [Backend Demonstration](#backend--api-demonstration-gif)
+- [Poster](#poster)
 
 ## Overview
 ### Description
@@ -136,4 +137,11 @@ For Rattlers LifeHacks, we identified the following "must-have" features that a 
 ## Backend & API Demonstration (GIF)
 For the Rattler Life Hacks app, we developed a User model class in IntelliJ, which represents user data and interactions with Firebase. We included a unique service key for enhanced identification, along with two core methods: getAllUsers and getUserById. These methods are structured as service and controller files, establishing the key user interactions for retrieving all users or individual user data based on ID. Through these queries to the Firebase database, the app can efficiently access and manage user information, aligning with the app's back-end functionality requirements.
 ![App Demo](https://github.com/Rattler-LifeHacks/RattlerLifeHacks/blob/main/giphy.gif)
+
+## Updated GIF:
+https://github.com/user-attachments/assets/168f05c1-d569-414e-85a9-7205b0c78363
+
+# Poster
+[RattlerLifeHacks (1).pptx](https://github.com/user-attachments/files/18129617/RattlerLifeHacks.1.pptx)
+
 
