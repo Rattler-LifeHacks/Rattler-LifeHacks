@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Navbar from "./navbar"; // Ensure this path is correct
+import Navbar from "./navbar"; // Optional: Use the Navbar component
 
 const WaitTimes = () => {
     const [waitTimes, setWaitTimes] = useState([]);
@@ -8,7 +8,7 @@ const WaitTimes = () => {
 
     useEffect(() => {
         axios
-            .get("http://localhost:8080/api/waittimes/") // Correct endpoint
+            .get("http://localhost:8080/api/waittimes/") // Correct API endpoint
             .then((response) => {
                 if (response.data.success) {
                     setWaitTimes(response.data.data || []); // Update state with fetched data
@@ -23,15 +23,19 @@ const WaitTimes = () => {
     }, []);
 
     return (
-        <div>
-           
-            <h1 style={{ textAlign: "center", color: "#1b5633" }}>Wait Times</h1>
-            {error && <p className="error-message" style={{ color: "red", textAlign: "center" }}>{error}</p>}
+        <div className="waittimes">  {/* Apply specific class to isolate styles */}
+            {/* Navbar component can be used here if required */}
+            <Navbar />
+            
+            <h5>Wait Times</h5>
+
+            {error && <p className="error-message">{error}</p>}
+
             {waitTimes.length > 0 ? (
                 <div className="wait-times-container">
                     {waitTimes.map((wt) => (
                         <div key={wt.locationId} className="wait-time-card">
-                            <h3 style={{ color: "#1b5633" }}>{wt.locationId}</h3>
+                            <h3>{wt.locationId}</h3>
                             <p><strong>Type:</strong> {wt.locationType}</p>
                             <p><strong>Wait Time:</strong> {wt.currentWaitTime} mins</p>
                         </div>

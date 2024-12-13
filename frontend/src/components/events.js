@@ -96,7 +96,7 @@ const Events = () => {
 
                     <div className="banner">
 
-                        <h1>Upcoming Events</h1>
+                        <h6>Upcoming Events</h6>
 
                     </div>
 
