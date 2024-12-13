@@ -45,6 +45,10 @@ public class     EventsController {
 
 
 
+
+
+
+
     @GetMapping("/")
     public ResponseEntity<ApiResponse<List<Events>>> getAllEvents() {
         try {
@@ -75,6 +79,8 @@ public class     EventsController {
             return ResponseEntity.status(500).body(new ApiResponse<>(false, "Internal Server Error", null, e));
         }
     }
+
+
     @DeleteMapping("/delete/{eventId}")
     public ResponseEntity<ApiResponse<Void>> deleteEventbyId(@PathVariable String eventId) {
         try {

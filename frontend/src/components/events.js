@@ -1,182 +1,216 @@
-
 import React, { useEffect, useState } from "react";
-
 import axios from "axios";
 
-import {Link, useNavigate} from "react-router-dom";
-
-import Navbar from "./navbar";
-
-
 const Events = () => {
-
     const [events, setEvents] = useState([]);
-
-    const [newEvent, setNewEvent] = useState({ title: "", date: "" });
-
+    const [newEvent, setNewEvent] = useState({ eventId: "", title: "", date: "", location: "" });
+    const [updateEvent, setUpdateEvent] = useState({ eventId: "", title: "", date: "", location: "" });
 
     // Fetch events from the backend
-
     useEffect(() => {
-
         axios
-
-            .get("/api/events/") // Ensure the correct endpoint matches the backend
-
+            .get("/api/events/")
             .then((response) => {
-
                 if (response.data.success) {
-
-                    setEvents(response.data.data || []); // Update state with events or empty array
-
+                    const formattedEvents = response.data.data.map((event) => ({
+                        ...event,
+                        date: event.date.seconds
+                            ? new Date(event.date.seconds * 1000)
+                            : new Date(event.date)
+                    }));
+                    setEvents(formattedEvents || []);
                 } else {
-
                     console.error("Error fetching events:", response.data.message);
-
                 }
-
             })
-
             .catch((error) => console.error("Error fetching events:", error));
-
     }, []);
 
-
     // Create a new event
-
     const createEventHandler = async () => {
+        const { eventId, title, date, location } = newEvent;
 
-        if (!newEvent.title.trim() || !newEvent.date.trim()) {
-
-            alert("Both title and date are required to create an event.");
-
+        if (!title.trim() || !date.trim() || !location.trim() || !eventId.trim()) {
+            alert("All fields (Event ID, Title, Date, and Location) are required to create an event.");
             return;
-
         }
-
 
         try {
+            const formattedEvent = {
+                ...newEvent,
+                date: new Date(date).toISOString()
+            };
 
-            const response = await axios.post("/api/events/create", newEvent);
-
+            const response = await axios.post("/api/events/create", formattedEvent);
             if (response.data.success) {
-
                 alert("Event created successfully!");
-
-                setEvents([...events, response.data.data]); // Add the newly created event to the list
-
-                setNewEvent({ title: "", date: "" }); // Reset the input fields
-
+                setEvents([...events, { ...response.data.data, date: new Date(date) }]);
+                setNewEvent({ eventId: "", title: "", date: "", location: "" });
             } else {
-
                 alert(response.data.message || "Failed to create event.");
-
             }
-
         } catch (error) {
-
             console.error("Error creating event:", error);
-
             alert("Error creating event. Please try again.");
-
         }
-
     };
 
+    // Update an event
+    const updateEventHandler = async () => {
+        const { eventId, title, date, location } = updateEvent;
+
+        if (!eventId.trim() || !title.trim() || !date.trim() || !location.trim()) {
+            alert("All fields (Event ID, Title, Date, and Location) are required to update an event.");
+            return;
+        }
+
+        try {
+            const formattedDate = new Date(date).toISOString();
+
+            const response = await axios.put(`/api/events/update/${eventId}`, null, {
+                params: { title, date: formattedDate }
+            });
+
+            if (response.data.success) {
+                alert("Event updated successfully!");
+
+                setEvents((prevEvents) =>
+                    prevEvents.map((event) =>
+                        event.eventId === eventId
+                            ? { ...event, title, date: new Date(date), location }
+                            : event
+                    )
+                );
+
+                setUpdateEvent({ eventId: "", title: "", date: "", location: "" });
+            } else {
+                alert(response.data.message || "Failed to update event.");
+            }
+        } catch (error) {
+            console.error("Error updating event:", error);
+            alert("Error updating event. Please try again.");
+        }
+    };
+
+    // Delete an event
+    const deleteEventHandler = async (eventId) => {
+        try {
+            const response = await axios.delete(`/api/events/delete/${eventId}`);
+            if (response.data.success) {
+                alert("Event deleted successfully!");
+                setEvents(events.filter((event) => event.eventId !== eventId));
+            } else {
+                alert(response.data.message || "Failed to delete event.");
+            }
+        } catch (error) {
+            console.error("Error deleting event:", error);
+            alert("Error deleting event. Please try again.");
+        }
+    };
 
     return (
-
         <div>
-
             <div className="eventsbody">
-
                 <div className="events-container">
-
                     {/* Banner */}
-
                     <div className="banner">
-
-                        <h6>Upcoming Events</h6>
-
+                        <h1>Upcoming Events</h1>
                     </div>
-
 
                     {/* Events List */}
-
                     <div className="events-list">
-
                         {events.length > 0 ? (
-
                             <ul>
-
                                 {events.map((event) => (
-
                                     <li key={event.eventId}>
-
-                                        <strong>{event.title}</strong> -{" "}
-
-                                        {new Date(event.date).toLocaleDateString()}
-
+                                        <strong>{event.title}</strong> - {" "}
+                                        {event.date instanceof Date
+                                            ? event.date.toLocaleString()
+                                            : "Invalid Date"} {" "}
+                                        ({event.location}) {" "}
+                                        <button
+                                            onClick={() => setUpdateEvent(event)}
+                                            style={{ marginLeft: "10px" }}
+                                        >
+                                            Update
+                                        </button>
+                                        <button
+                                            onClick={() => deleteEventHandler(event.eventId)}
+                                            style={{ marginLeft: "10px", color: "red" }}
+                                        >
+                                            Delete
+                                        </button>
                                     </li>
-
                                 ))}
-
                             </ul>
-
                         ) : (
-
                             <p>No upcoming events available.</p>
-
                         )}
 
-
-
-
                         {/* Event Creation Form */}
-
                         <div className="event-creation">
-
                             <h2>Create New Event</h2>
-
                             <input
-
                                 type="text"
-
-                                placeholder="Event Title"
-
-                                value={newEvent.title}
-
-                                onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
-
+                                placeholder="Event ID"
+                                value={newEvent.eventId}
+                                onChange={(e) => setNewEvent({ ...newEvent, eventId: e.target.value })}
                             />
-
                             <input
-
-                                type="date"
-
-                                value={newEvent.date}
-
-                                onChange={(e) => setNewEvent({ ...newEvent, date: e.target.value })}
-
+                                type="text"
+                                placeholder="Event Title"
+                                value={newEvent.title}
+                                onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
                             />
-
+                            <input
+                                type="datetime-local"
+                                value={newEvent.date}
+                                onChange={(e) => setNewEvent({ ...newEvent, date: e.target.value })}
+                            />
+                            <input
+                                type="text"
+                                placeholder="Location"
+                                value={newEvent.location}
+                                onChange={(e) => setNewEvent({ ...newEvent, location: e.target.value })}
+                            />
                             <button onClick={createEventHandler}>Create Event</button>
-
                         </div>
 
+                        {/* Event Update Form */}
+                        {updateEvent.eventId && (
+                            <div className="event-update">
+                                <h2>Update Event</h2>
+                                <input
+                                    type="text"
+                                    placeholder="Event ID"
+                                    value={updateEvent.eventId}
+                                    readOnly
+                                />
+                                <input
+                                    type="text"
+                                    placeholder="Event Title"
+                                    value={updateEvent.title}
+                                    onChange={(e) => setUpdateEvent({ ...updateEvent, title: e.target.value })}
+                                />
+                                <input
+                                    type="datetime-local"
+                                    value={updateEvent.date}
+                                    onChange={(e) => setUpdateEvent({ ...updateEvent, date: e.target.value })}
+                                />
+                                <input
+                                    type="text"
+                                    placeholder="Location"
+                                    value={updateEvent.location}
+                                    onChange={(e) => setUpdateEvent({ ...updateEvent, location: e.target.value })}
+                                />
+                                <button onClick={updateEventHandler}>Update Event</button>
+                            </div>
+                        )}
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     );
-
 };
 
-
 export default Events;
-
-
