@@ -62,7 +62,7 @@ const Login = ({ setUser }) => {
 
 
     return (
-
+        <div className="loginpage">
         <div>
 
             <h1>Rattler Life Hacks</h1>
@@ -137,6 +137,7 @@ const Login = ({ setUser }) => {
 
             </button>
 
+        </div>
         </div>
 
     );

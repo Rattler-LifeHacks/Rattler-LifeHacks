@@ -1,5 +1,5 @@
 body {
-  margin: 50px;
+  margin:0;
   padding: 0;
 
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -11,10 +11,11 @@ body {
   height: 100vh; /* Ensure body takes full height of the viewport */
   width: 100%;
   display: flex; /* Use flexbox to center the content */
-  justify-content: center; /* Align content horizontally in the center */
-  align-items: center; /* Align content vertically in the center */
+  /*justify-content: center;  Align content horizontally in the center */
+
   flex-direction: column;
 }
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -97,7 +98,7 @@ button:active {
 
 /*Create styles*/
 
-body,html {
+html {
   margin: 0px; /* Remove default margin */
   padding: 0; /* Remove default padding */
   font-family: Arial, sans-serif; /* Set a global font */
@@ -106,7 +107,7 @@ body,html {
   width: 100%;
   display: flex; /* Use flexbox to center the container */
   justify-content: center;
-  align-items: center;
+
   overflow: visible;
 }
 /* Center the entire form container */
@@ -243,98 +244,234 @@ button:active {
   background-color: #f1f1f1;
 }
 
-/* event styles */
-.events-container {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  margin: 20px;
-  border-radius: 8px;
+/* General Styles for the Events Page */
+h6 {
+  margin-top: 100px;
   text-align: center;
-}
-.upcoming {
   color: white;
+  font-size: 2rem;
 }
+
+.eventsbody {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Banner Styles */
 .banner {
-  background-color: #1b5633;
+  background-color: #1b5633; /* Green Banner */
   color: white;
   padding: 20px;
+  text-align: center;
+  width: 100%;
   margin-bottom: 20px;
 }
+
 .banner h1 {
-  color: white;
+  margin: 0;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+/* Events Container */
+.events-container {
+  width: 100%;
+  max-width: 1000px; /* Limit the width of the container */
+  margin: 0 auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Events List */
+.events-list {
+  padding: 20px 0;
+  margin: 0;
 }
 
 .events-list ul {
   list-style-type: none;
   padding: 0;
+  margin: 0;
 }
 
 .events-list li {
-  margin: 10px 0;
-  font-size: 18px;
-}
-.events-list p {
-  margin: 10px 0;
-  font-size: 18px;
-  color: #1b5633;
-}
-.event-creation {
-  margin-top: 20px;
-  color: #1b5633;
-}
-
-.event-creation input {
-  margin: 5px;
-  padding: 8px;
-  font-size: 16px;
-}
-
-.event-creation button {
-  background-color: #1b5633;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.event-creation button:hover {
-  background-color: #1b5633;
-}
-/* wait times */
-/* Wait Times Container */
-.wait-times-container {
-  margin: 20px;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* List styling for wait times */
-.wait-times-container ul {
-  list-style: none;
-  padding: 0;
-}
-
-.wait-time-item {
   background-color: #fff;
-  border: 1px solid #ddd;
-  padding: 10px;
+  padding: 15px;
   margin: 10px 0;
-  border-radius: 5px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.wait-time-item strong {
+.events-list li strong {
+  color: #1b5633;
+}
+
+/* Empty Event Message */
+.events-list p {
+  text-align: center;
+  color: #333;
+  font-size: 1.2rem;
+  margin-top: 20px;
+}
+
+/* Event Creation Form */
+.event-creation {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.event-creation h2 {
+  font-size: 1.5rem;
+  color: #1b5633;
+  margin-bottom: 20px;
+}
+
+.event-creation input {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.event-creation button {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  background-color: #1b5633;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
   font-weight: bold;
 }
 
-.wait-time-item:hover {
-  background-color: #e9f5e9;
+.event-creation button:hover {
+  background-color: #45a049;
 }
+
+.event-creation button:active {
+  background-color: #388e3c;
+}
+
+/* Style for Event List Items */
+.events-list li {
+  font-size: 1rem;
+  background-color: #ee7624;
+  color: #333;
+  border-radius: 8px;
+  padding: 10px 20px;
+  margin: 10px 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.events-list li span {
+  color: #1b5633;
+  font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .events-container {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .event-creation input,
+  .event-creation button {
+    max-width: 100%;
+  }
+
+  .events-list li {
+    font-size: 0.9rem;
+  }
+}
+
+/* wait times */
+/* Update only the WaitTimes container */
+.waittimes {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #ee7624;
+  display: flex;
+  flex-direction: column;  /* Stack elements vertically */
+  justify-content: flex-start;  /* Align items at the top */
+  align-items: center;  /* Center content horizontally */
+  height: 100vh; /* Full viewport height */
+  overflow: hidden;  /* Prevent any overflow */
+}
+
+/* Adjust only the WaitTimes title */
+.waittimes h1 {
+margin-top: 20px;
+font-size: 2rem;
+color: #1b5633;
+text-align: center;
+margin-bottom: 20px;  /* Space below title */
+}
+
+/* Keep styles for the container of the wait times list */
+.wait-times-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+  flex-grow: 1;  /* Allow container to take up remaining space */
+  overflow-y: auto;  /* Enable scrolling if content overflows */
+}
+
+/* Card styling for wait times */
+.wait-time-card {
+background-color: white;
+padding: 20px;
+border-radius: 8px;
+width: 250px;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+text-align: center;
+transition: transform 0.2s ease-in-out;
+}
+
+/* Hover effect for wait time cards */
+.wait-time-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Styling for error messages */
+.error-message {
+color: red;
+font-size: 1.2rem;
+margin-top: 20px;
+text-align: center;
+}
+h5 {
+  margin-top: 100px;
+  text-align: center;
+  color: #1b5633;
+  font-size: 2rem;
+}
+
 h2 {
   text-align: center;
   color: #1b5633;
@@ -348,6 +485,23 @@ h1 {
 }
 
 /* Profile container styling */
+.profilepage {
+    margin:0;
+    padding: 0;
+  
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #ee7624;
+    height: 100vh; /* Ensure body takes full height of the viewport */
+    width: 100%;
+    display: flex; /* Use flexbox to center the content */
+    /*justify-content: center;  Align content horizontally in the center */
+  
+    flex-direction: column;
+}
 .profile-container {
   display: flex; /* Flexbox for alignment */
   flex-direction: column; /* Stack items vertically */
@@ -426,4 +580,114 @@ p {
   font-size: 1rem;
   margin: 5px 0;
   color: #333;
+}
+/* Study rooms styles */
+.studyrooms {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #ee7624;
+  height: 100vh; /* Ensure body takes full height of the viewport */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 20px;
+}
+
+/* Overall container for the study rooms */
+.study-rooms-container {
+  padding: 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #ee7624; /* Light background for the page */
+  width: 100%;
+  overflow-y: auto;
+  max-width: 1200px;
+  border-radius: 8px;
+}
+
+/* Each study room card */
+.study-room-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+  margin: 10px auto; /* Center each card and add margin for spacing */
+  min-width: 250px; /* Set a minimum width for cards */
+}
+
+/* Style for the headers (Name, Location, etc.) */
+.study-room-card strong {
+  color: #1b5633; /* Greenish color for labels */
+  font-weight: bold;
+}
+
+/* Style for the text */
+.study-room-card p {
+  margin: 5px 0;
+  color: #333; /* Dark text color for easy readability */
+}
+
+/* Status: Available/Occupied styling */
+.available {
+  color: green;
+  font-weight: bold;
+}
+
+.occupied {
+  color: red;
+  font-weight: bold;
+}
+
+/* Header for the page */
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  color: #1b5633; /* Dark green color */
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+/* Additional enhancements for responsiveness */
+@media (max-width: 768px) {
+  .study-rooms-container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .study-room-card {
+    width: 100%;
+    max-width: 95%;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Log in page */
+.loginpage{
+  margin:0;
+    padding: 0;
+  
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #ee7624;
+    height: 100vh; /* Ensure body takes full height of the viewport */
+    width: 100%;
+    display: flex; /* Use flexbox to center the content */
+    /*justify-content: center;  Align content horizontally in the center */
+  
+    flex-direction: column;
 }

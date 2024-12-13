@@ -77,6 +77,7 @@ const Profile = ({ user, setUser }) => {
     };
 
     return (
+        <div className="profilepage">
         <div
             style={{
                 display: "flex",
@@ -194,6 +195,7 @@ const Profile = ({ user, setUser }) => {
                     Delete Profile
                 </button>
             </div>
+        </div>
         </div>
     );
 };

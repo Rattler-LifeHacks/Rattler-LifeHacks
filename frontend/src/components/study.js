@@ -10,7 +10,7 @@ const StudyRooms = () => {
             .get("http://localhost:8080/api/studyrooms/") // Corrected HTTP endpoint
             .then((response) => {
                 if (response.data.success) {
-                    setStudyRooms(response.data.data || []); // Update state with study room data
+                    setStudyRooms(response.data.data); // Update state with study room data
                 } else {
                     console.error("Error fetching study rooms:", response.data.message);
                 }
@@ -24,24 +24,46 @@ const StudyRooms = () => {
     };
 
     return (
-        <div>
-            <Navbar />
-            <h1>Study Rooms</h1>
-            {studyRooms.length > 0 ? (
-                <ul>
-                    {studyRooms.map((room) => (
-                        <li key={room.roomId}>
-                            <strong>Name:</strong> {room.roomName} <br />
-                            <strong>Location:</strong> {room.location} <br />
-                            <strong>Availability:</strong> {room.availablilityStatus} <br />
-                            <strong>Reservation Time:</strong> {formatReservationTime(room.reservationTime)} <br />
-                            <strong>Reserved By:</strong> {room.reservedBy || "Not Reserved"}
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <p>No study rooms available at the moment.</p>
-            )}
+        <div className="studyrooms">
+            <div className="study-rooms-container">
+                <Navbar />
+                <h1>Study Rooms</h1>
+                {studyRooms.length > 0 ? (
+                    studyRooms.map((room, idx) => {
+                        var id = Math.random() * 100 + idx;
+                        return (
+                            <div key={id} className="study-room-card">
+                                <p>
+                                    <strong>Name:</strong> {room.roomName}
+                                </p>
+                                <p>
+                                    <strong>Location:</strong> {room.location}
+                                </p>
+                                <p>
+                                    <strong>Availability:</strong>
+                                    <span
+                                        className={
+                                            room.availablilityStatus === "Available"
+                                                ? "available"
+                                                : "occupied"
+                                        }
+                                    >
+                                        {room.availablilityStatus}
+                                    </span>
+                                </p>
+                                <p>
+                                    <strong>Reservation Time:</strong> {formatReservationTime(room.reservationTime)}
+                                </p>
+                                <p>
+                                    <strong>Reserved By:</strong> {room.reservedBy || "Not Reserved"}
+                                </p>
+                            </div>
+                        );
+                    })
+                ) : (
+                    <p>No study rooms available at the moment.</p>
+                )}
+            </div>
         </div>
     );
 };

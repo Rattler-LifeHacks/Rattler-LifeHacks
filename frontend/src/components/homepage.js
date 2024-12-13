@@ -47,15 +47,7 @@ export default function Homepage() {
 
 
 
-                    <div>
-
-                        {events.map((event, index) => (
-
-                            <p key={index}>{event.title}</p>
-
-                        ))}
-
-                    </div>
+                   
 
                 </div>
 
@@ -80,7 +72,7 @@ const styles = {
         paddingBottom: "80px", // Add bottom padding to avoid overlap if needed
 
         position: "relative", // Ensure it's positioned correctly
-
+        zIndex: 1,
     },
 
     header: { backgroundColor: "#228B22", padding: "20px" },
@@ -125,19 +117,18 @@ const styles = {
 
         backgroundRepeat: "no-repeat",
 
-        minHeight: "100px", // Ensure the background covers the full height of the page
+        minHeight: "100hv", // Ensure the background covers the full height of the page
 
         display: "flex",
 
         width: "100%",
 
-        height: "100%",
+        height: "100vh",
 
         flexDirection: "column", // Allow elements to stack vertically
 
         overflow: "hidden",
 
-        margin: 0,
 
         padding: 0,
 
