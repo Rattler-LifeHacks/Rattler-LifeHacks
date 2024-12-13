@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Navbar from "./navbar"; // Optional: Include Navbar for navigation.
 
 const Events = () => {
     const [events, setEvents] = useState([]);
@@ -9,14 +10,14 @@ const Events = () => {
     // Fetch events from the backend
     useEffect(() => {
         axios
-            .get("/api/events/")
+            .get("/api/events/") // Ensure the correct endpoint matches the backend
             .then((response) => {
                 if (response.data.success) {
                     const formattedEvents = response.data.data.map((event) => ({
                         ...event,
                         date: event.date.seconds
-                            ? new Date(event.date.seconds * 1000)
-                            : new Date(event.date)
+                            ? new Date(event.date.seconds * 1000) // Convert Firestore timestamp to JS Date
+                            : new Date(event.date),
                     }));
                     setEvents(formattedEvents || []);
                 } else {
@@ -30,7 +31,7 @@ const Events = () => {
     const createEventHandler = async () => {
         const { eventId, title, date, location } = newEvent;
 
-        if (!title.trim() || !date.trim() || !location.trim() || !eventId.trim()) {
+        if (!eventId.trim() || !title.trim() || !date.trim() || !location.trim()) {
             alert("All fields (Event ID, Title, Date, and Location) are required to create an event.");
             return;
         }
@@ -38,14 +39,14 @@ const Events = () => {
         try {
             const formattedEvent = {
                 ...newEvent,
-                date: new Date(date).toISOString()
+                date: new Date(date).toISOString(),
             };
 
             const response = await axios.post("/api/events/create", formattedEvent);
             if (response.data.success) {
                 alert("Event created successfully!");
                 setEvents([...events, { ...response.data.data, date: new Date(date) }]);
-                setNewEvent({ eventId: "", title: "", date: "", location: "" });
+                setNewEvent({ eventId: "", title: "", date: "", location: "" }); // Reset the input fields
             } else {
                 alert(response.data.message || "Failed to create event.");
             }
@@ -68,7 +69,7 @@ const Events = () => {
             const formattedDate = new Date(date).toISOString();
 
             const response = await axios.put(`/api/events/update/${eventId}`, null, {
-                params: { title, date: formattedDate }
+                params: { title, date: formattedDate },
             });
 
             if (response.data.success) {
@@ -109,104 +110,99 @@ const Events = () => {
     };
 
     return (
-        <div>
-            <div className="eventsbody">
-                <div className="events-container">
-                    {/* Banner */}
-                    <div className="banner">
-                        <h1>Upcoming Events</h1>
+        <div className="eventsbody">
+            <div className="events-container">
+                <Navbar /> {/* Optional: Include a navbar */}
+                <h1 className="banner">Upcoming Events</h1>
+
+                <div className="events-list">
+                    {events.length > 0 ? (
+                        <ul>
+                            {events.map((event) => (
+                                <li key={event.eventId}>
+                                    <strong>{event.title}</strong> - {" "}
+                                    {event.date instanceof Date
+                                        ? event.date.toLocaleString()
+                                        : "Invalid Date"} {" "}
+                                    ({event.location}) {" "}
+                                    <button
+                                        onClick={() => setUpdateEvent(event)}
+                                        style={{ marginLeft: "10px" }}
+                                    >
+                                        Update
+                                    </button>
+                                    <button
+                                        onClick={() => deleteEventHandler(event.eventId)}
+                                        style={{ marginLeft: "10px", color: "red" }}
+                                    >
+                                        Delete
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>No upcoming events available.</p>
+                    )}
+
+                    {/* Event Creation Form */}
+                    <div className="event-creation">
+                        <h2>Create New Event</h2>
+                        <input
+                            type="text"
+                            placeholder="Event ID"
+                            value={newEvent.eventId}
+                            onChange={(e) => setNewEvent({ ...newEvent, eventId: e.target.value })}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Event Title"
+                            value={newEvent.title}
+                            onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
+                        />
+                        <input
+                            type="datetime-local"
+                            value={newEvent.date}
+                            onChange={(e) => setNewEvent({ ...newEvent, date: e.target.value })}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Location"
+                            value={newEvent.location}
+                            onChange={(e) => setNewEvent({ ...newEvent, location: e.target.value })}
+                        />
+                        <button onClick={createEventHandler}>Create Event</button>
                     </div>
 
-                    {/* Events List */}
-                    <div className="events-list">
-                        {events.length > 0 ? (
-                            <ul>
-                                {events.map((event) => (
-                                    <li key={event.eventId}>
-                                        <strong>{event.title}</strong> - {" "}
-                                        {event.date instanceof Date
-                                            ? event.date.toLocaleString()
-                                            : "Invalid Date"} {" "}
-                                        ({event.location}) {" "}
-                                        <button
-                                            onClick={() => setUpdateEvent(event)}
-                                            style={{ marginLeft: "10px" }}
-                                        >
-                                            Update
-                                        </button>
-                                        <button
-                                            onClick={() => deleteEventHandler(event.eventId)}
-                                            style={{ marginLeft: "10px", color: "red" }}
-                                        >
-                                            Delete
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
-                        ) : (
-                            <p>No upcoming events available.</p>
-                        )}
-
-                        {/* Event Creation Form */}
-                        <div className="event-creation">
-                            <h2>Create New Event</h2>
+                    {/* Event Update Form */}
+                    {updateEvent.eventId && (
+                        <div className="event-update">
+                            <h2>Update Event</h2>
                             <input
                                 type="text"
                                 placeholder="Event ID"
-                                value={newEvent.eventId}
-                                onChange={(e) => setNewEvent({ ...newEvent, eventId: e.target.value })}
+                                value={updateEvent.eventId}
+                                readOnly
                             />
                             <input
                                 type="text"
                                 placeholder="Event Title"
-                                value={newEvent.title}
-                                onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
+                                value={updateEvent.title}
+                                onChange={(e) => setUpdateEvent({ ...updateEvent, title: e.target.value })}
                             />
                             <input
                                 type="datetime-local"
-                                value={newEvent.date}
-                                onChange={(e) => setNewEvent({ ...newEvent, date: e.target.value })}
+                                value={updateEvent.date}
+                                onChange={(e) => setUpdateEvent({ ...updateEvent, date: e.target.value })}
                             />
                             <input
                                 type="text"
                                 placeholder="Location"
-                                value={newEvent.location}
-                                onChange={(e) => setNewEvent({ ...newEvent, location: e.target.value })}
+                                value={updateEvent.location}
+                                onChange={(e) => setUpdateEvent({ ...updateEvent, location: e.target.value })}
                             />
-                            <button onClick={createEventHandler}>Create Event</button>
+                            <button onClick={updateEventHandler}>Update Event</button>
                         </div>
-
-                        {/* Event Update Form */}
-                        {updateEvent.eventId && (
-                            <div className="event-update">
-                                <h2>Update Event</h2>
-                                <input
-                                    type="text"
-                                    placeholder="Event ID"
-                                    value={updateEvent.eventId}
-                                    readOnly
-                                />
-                                <input
-                                    type="text"
-                                    placeholder="Event Title"
-                                    value={updateEvent.title}
-                                    onChange={(e) => setUpdateEvent({ ...updateEvent, title: e.target.value })}
-                                />
-                                <input
-                                    type="datetime-local"
-                                    value={updateEvent.date}
-                                    onChange={(e) => setUpdateEvent({ ...updateEvent, date: e.target.value })}
-                                />
-                                <input
-                                    type="text"
-                                    placeholder="Location"
-                                    value={updateEvent.location}
-                                    onChange={(e) => setUpdateEvent({ ...updateEvent, location: e.target.value })}
-                                />
-                                <button onClick={updateEventHandler}>Update Event</button>
-                            </div>
-                        )}
-                    </div>
+                    )}
                 </div>
             </div>
         </div>
