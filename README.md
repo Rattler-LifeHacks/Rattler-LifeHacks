@@ -6,6 +6,7 @@
 - [Schema](#schema)
 - [Backend Demonstration](#backend--api-demonstration-gif)
 - [Poster](#poster)
+- [Poster Presentation](#poster-presentation)
 
 ## Overview
 ### Description
@@ -145,6 +146,11 @@ https://github.com/user-attachments/assets/bb4e7f96-0c23-4aa2-b60b-fcaf029fc606
 
 # Poster
 <img width="559" alt="image" src="https://github.com/user-attachments/assets/ddcc86c3-266c-4b44-b63e-ef5142bbf6d9" />
+
+# Poster Presentation
+https://github.com/user-attachments/assets/1b49ac12-44a7-4e17-8261-bac9c5451c9a
+
+
 
 
 
