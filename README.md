@@ -139,7 +139,7 @@ For the Rattler Life Hacks app, we developed a User model class in IntelliJ, whi
 ![App Demo](https://github.com/Rattler-LifeHacks/RattlerLifeHacks/blob/main/giphy.gif)
 
 ## Updated GIF:
-https://github.com/user-attachments/assets/168f05c1-d569-414e-85a9-7205b0c78363
+![TKT_COP3060F24](https://github.com/user-attachments/assets/9b788394-1849-4e8f-8634-b54e00dcf2de)
 
 # Poster
 <img width="559" alt="image" src="https://github.com/user-attachments/assets/ddcc86c3-266c-4b44-b63e-ef5142bbf6d9" />
