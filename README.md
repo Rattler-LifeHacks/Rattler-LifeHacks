@@ -35,7 +35,7 @@ For Rattlers LifeHacks, we identified the following "must-have" features that a 
 - [X] User can update their username
 - [X] User can update profile picture
 - [ ] User can search for events
-- [ ] User can view a feed of events
+- [X] User can view a feed of events
 - [ ] User can tap their RattlerCard
 - [ ] User can see food/financial aid wait times
 - [X] User can view study room availability
