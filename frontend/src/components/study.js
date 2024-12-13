@@ -39,7 +39,7 @@ const StudyRooms = () => {
                         var id = Math.random() * 100 + idx;
                         return (
                             <div key={id} className="study-room-card">
-                                
+
 
                                 <p>
                                     <strong>Availability:</strong>

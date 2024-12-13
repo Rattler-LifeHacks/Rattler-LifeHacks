@@ -10,7 +10,7 @@ const containerStyle = {
 
 // Hardcoded mapping of location IDs to coordinates
 const locationCoordinates = {
-    "Lee Hall": { latitude: 30.421309, longitude: -84.283859 },
+    "Lee Hall": { latitude: 30.4270879, longitude: -84.2851049 },
     "Library": { latitude: 30.421120, longitude: -84.284120 },
     "Student Union": { latitude: 30.424200, longitude: -84.285300 },
     "Financial Aid Office": { latitude: 30.423800, longitude: -84.284500 },
