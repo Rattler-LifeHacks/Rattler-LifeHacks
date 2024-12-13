@@ -22,6 +22,7 @@ const locationCoordinates = {
     "Athletic Financial Aid Office": { latitude: 30.425500, longitude: -84.286700 },
     "Chick-fil-A": { latitude: 30.424200, longitude: -84.285300 },
     "Wingstop": { latitude: 30.424200, longitude: -84.285300 },
+    "Pizza Express": { latitude: 30.424200, longitude: -84.285300 },
     "Tropical Smoothie": { latitude: 30.424200, longitude: -84.285300 },
     "Rattler's Nest": { latitude: 30.424200, longitude: -84.285300 },
     "President's Dining Room": { latitude: 30.424200, longitude: -84.285000 },
@@ -30,7 +31,7 @@ const locationCoordinates = {
 const WaitTimes = () => {
     const [waitTimes, setWaitTimes] = useState([]);
     const [error, setError] = useState("");
-    const [flippedCard, setFlippedCard] = useState(null);
+    const [flippedCards, setFlippedCards] = useState({}); // Track flipped state of each card
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY, // Ensure your .env file has this key.
     });
@@ -51,8 +52,11 @@ const WaitTimes = () => {
             });
     }, []);
 
-    const toggleCard = (locationId) => {
-        setFlippedCard(flippedCard === locationId ? null : locationId);
+    const toggleCard = (key) => {
+        setFlippedCards((prev) => ({
+            ...prev,
+            [key]: !prev[key], // Toggle the state of the clicked card
+        }));
     };
 
     const getCoordinatesForLocation = (locationId) => {
@@ -65,11 +69,11 @@ const WaitTimes = () => {
             {error && <p className="error-message" style={{ color: "red", textAlign: "center" }}>{error}</p>}
             {waitTimes.length > 0 ? (
                 <div className="wait-times-container">
-                    {waitTimes.map((wt) => (
+                    {waitTimes.map((wt, index) => (
                         <div
-                            key={wt.locationId}
-                            className={`wait-time-card ${flippedCard === wt.locationId ? "flipped" : ""}`}
-                            onClick={() => toggleCard(wt.locationId)}
+                            key={index}
+                            className={`wait-time-card ${flippedCards[index] ? "flipped" : ""}`}
+                            onClick={() => toggleCard(index)}
                         >
                             {/* Front of the card */}
                             <div className="card-front">

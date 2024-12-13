@@ -1,37 +1,38 @@
+.waittimes {
+    padding: 20px;
+}
+
+.waittimes-title {
+    text-align: center;
+    color: #1b5633;
+    margin-bottom: 20px;
+}
+
 .wait-times-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust columns dynamically */
     gap: 20px;
+    justify-content: center;
+    width: 100%; /* Ensure it uses full width */
+    margin: 0 auto; /* Center the container */
 }
 
 .wait-time-card {
-    position: relative;
-    width: 100%;
-    height: 200px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
     perspective: 1000px;
-    cursor: pointer;
-}
-
-.wait-time-card .card-front,
-.wait-time-card .card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
     transform-style: preserve-3d;
     transition: transform 0.6s;
-}
-
-.wait-time-card .card-front {
-    background: #f5f5f5;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.wait-time-card .card-back {
-    background: #1b5633;
-    color: white;
-    transform: rotateY(180deg);
+    height: 300px;
+    width: 100%; /* Adjust width to fit grid */
+    max-width: 300px; /* Set a maximum width */
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .wait-time-card.flipped .card-front {
@@ -39,5 +40,30 @@
 }
 
 .wait-time-card.flipped .card-back {
-    transform: rotateY(0);
+    transform: rotateY(0deg);
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    backface-visibility: hidden;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-front {
+    background: #f5f5f5;
+    z-index: 2;
+    transform: rotateY(0deg);
+}
+
+.card-back {
+    background: #1b5633;
+    color: white;
+    transform: rotateY(180deg);
 }
