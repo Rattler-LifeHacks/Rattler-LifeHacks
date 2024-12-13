@@ -19,8 +19,14 @@ const StudyRooms = () => {
     }, []);
 
     const formatReservationTime = (timestamp) => {
-        if (!timestamp || !timestamp.seconds) return "No reservation time";
-        return new Date(timestamp.seconds * 1000).toLocaleString(); // Convert to readable date
+        if (!timestamp) return "No reservation time";
+        // Handle Firestore Timestamp or ISO Date formats
+        const date = timestamp.seconds
+            ? new Date(timestamp.seconds * 1000)
+            : new Date(timestamp);
+        return date instanceof Date && !isNaN(date)
+            ? date.toLocaleString() // Convert to readable date and time
+            : "Invalid Date";
     };
 
     return (
@@ -33,12 +39,8 @@ const StudyRooms = () => {
                         var id = Math.random() * 100 + idx;
                         return (
                             <div key={id} className="study-room-card">
-                                <p>
-                                    <strong>Name:</strong> {room.roomName}
-                                </p>
-                                <p>
-                                    <strong>Location:</strong> {room.location}
-                                </p>
+                                
+
                                 <p>
                                     <strong>Availability:</strong>
                                     <span
