@@ -142,6 +142,7 @@ For the Rattler Life Hacks app, we developed a User model class in IntelliJ, whi
 https://github.com/user-attachments/assets/168f05c1-d569-414e-85a9-7205b0c78363
 
 # Poster
-[RattlerLifeHacks (1).pptx](https://github.com/user-attachments/files/18129617/RattlerLifeHacks.1.pptx)
+<img width="559" alt="image" src="https://github.com/user-attachments/assets/ddcc86c3-266c-4b44-b63e-ef5142bbf6d9" />
+
 
 
